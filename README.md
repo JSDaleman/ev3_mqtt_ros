@@ -1,5 +1,5 @@
 # ev3dev_ROS
-Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de comunicación MQTT
+Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de comunicación MQTT 
 Autor: Juan Sebastian Daleman
 
 Tabla de Contenidos

@@ -1,4 +1,4 @@
-#Conexión de EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev
+# Conexión de EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev
 Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de comunicación MQTT  
 Autor: Juan Sebastian Daleman
 

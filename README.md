@@ -175,7 +175,7 @@ De esta sacaremos los datos de Cluster URL y Port los cuales replazaremos de los
 
 ![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/eb66381b-6ed9-45df-b269-845c788bce5c)
 
-Leugo iremos a la pestaña web client en donde ingrsaremos las anteriores credenciales y conectaremos el cliente. Despues nos suscribiremos a todos los topicos para ver todo el trafico esta pestaña es util para verificar el trafico que se esta teniendo y hacer pruebas de mensajes.
+Luego iremos a la pestaña web client en donde ingrsaremos las anteriores credenciales y conectaremos el cliente. Despues nos suscribiremos a todos los topicos para ver todo el trafico esta pestaña es util para verificar el trafico que se esta teniendo y hacer pruebas de mensajes.
 
 ![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/a390c292-2093-438e-a0b7-0527c92722cd)
 
@@ -251,7 +251,19 @@ Ya con esto se desplegara la interfaz donde el usuario puede hacer que el robot 
 
 ![GIU](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/2dfd4890-bb76-4eb1-9ba9-2559c0825ade)
 
+* Prueba de control del brazo del robot
 
+https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/93a1506f-b2b7-4799-aad5-fe47d4745182
+
+* Prueba de controlar orientación del robot
+
+
+https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/92c940af-cf99-44eb-8f9e-c92b9c9d245d
+
+
+* Prueba de controlar desplazamiento
+
+https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/46a48ef9-ab9e-4792-9af0-0337abf88a13
 
 
 

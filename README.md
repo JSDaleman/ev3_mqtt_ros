@@ -31,7 +31,7 @@ Para generar la conexión se hara a traves de comunicación mqtt e implementaci�
 
 Para esto crearemos un directrotio que sera nuestro workspace y tendra nuestros archivos de intalación
 
-```
+```sh
 cd ~
 mkdir ev3dev_ros
 cd ev3dev_ros
@@ -44,7 +44,7 @@ catkin_create_pkg ev3dev_ros
 
 Para la instalacion de la libreria en python descargaremos los archivos necesarios y haremos la instalcion con los siguientes comandos
 
-```
+```sh
 cd ~
 mkdir librerias
 cd ~/librerias/
@@ -78,21 +78,21 @@ ssh robot@<Dirección IP del robot>
 Si desea probar el funcionamiento de motores por el terminal puede conectar los motores en los puestos B y C del robot y corra el siguente comando el cual movera las dos ruedas con una velocidad de 50 grados/s sin frenado premero la del motor conectado al puerto C y luego la del motor conectado al puerto C.
 
 * Prueba movimiento de cada motor
-```
+```sh
 python3 -c "from ev3dev2.motor import LargeMotor, OUTPUT_B, OUTPUT_C; LargeMotor(OUTPUT_B).on_for_seconds(speed=50, seconds=2); LargeMotor(OUTPUT_C).on_for_seconds(speed=50, seconds=2)"
 ```
 
 https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/4514641b-869f-43b0-8adf-74ec17cf0142
 
 * Prueba con frenado
-```
+```sh
 python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank; tank_drive = MoveTank(OUTPUT_B, OUTPUT_C); tank_drive.on_for_seconds(left_speed=50, right_speed=50, seconds=5, brake=True)"
 ```
 
 https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/5100ec6d-13a1-4fb5-8574-61f7fa2af7d3
 
 * Giro del robot
-```
+```sh
 python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank; tank_drive = MoveTank(OUTPUT_B, OUTPUT_C); tank_drive.on_for_seconds(left_speed=50, right_speed=45, seconds=5, brake=True)"
 ```
 
@@ -101,7 +101,7 @@ https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/6e06f705-b825-4
 
 
 * Frenado suave
-```
+```sh
 python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank; tank_drive = MoveTank(OUTPUT_B, OUTPUT_C); tank_drive.on_for_seconds(left_speed=50, right_speed=45, seconds=5); tank_drive.off(brake=True)"
 
 ```
@@ -110,7 +110,7 @@ python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent
 ### Scripts de prueba con python
 En la terminal del robot vamos a crear los directorios de trabajo para nuestros scripts de python con los siguentes comandos
 
-```
+```sh
 cd ~
 mkdir pruebas
 cd pruebas/
@@ -126,12 +126,12 @@ ahora en crearemos el scritp inicial el cual lo que hara es que cambiara los led
 
 copiaremos el archivo en el directorio del robot 
 
-```
+```sh
 scp pythonHello.py robot@<Dirección IP del robot>:/home/robot/pruebas/python/Mov/
 ```
 
 Para correr el script en la terminar del robot le daremos los permisos necesarios al archivo y lo correremos
-```
+```sh
 cd ~/pruebas/python/Mov/
 chmod +x pythonHello.py
 python3 pythonHello.py
@@ -183,7 +183,7 @@ Luego iremos a la pestaña web client en donde ingrsaremos las anteriores creden
 ### Carga de archivos al robot
 En la terminal de la conexión con el robot crearemos un directorio para los archivos de la conexión y que ejecutaremos mas adelante para controlarlo
 
-```
+```sh
 cd ~/pruebas/python/
 mkdir MQTT
 cd ~/pruebas/python/MQTT
@@ -198,7 +198,7 @@ los archivos en la carpeta de [scripts](https://github.com/JSDaleman/Robotica-mo
 
 Ahora modiifcaremos el archivo CMakeLists.txt agregando al final de este el siguiente codigo y guardamos los coambios
 
-```
+```sh
 catkin_install_python(PROGRAMS
     scripts/GIU_Control.py
     scripts/mqtt_remote_method_calls.py
@@ -208,7 +208,7 @@ catkin_install_python(PROGRAMS
 
 ya con todos los archivos necesarios y la modificacion compilaremos el paquete
 
-```
+```sh
 cd ~/ev3dev_ros/
 catkin_make
 source devel/setup.bash
@@ -219,7 +219,7 @@ Para la ejecución abriremos kitty y lanzaremos cuatro terminales (prar abrir la
 
 * Primera terminal
   En esta haremos la conexión shh con el robot para iniciar la ejecución del cliente MQTT para el control de este recordar que la contraseña es "maker"
-  ```
+  ```sh
   ssh robot@ev3dev.local
   maker
   cd ~/pruebas/python/MQTT
@@ -228,19 +228,19 @@ Para la ejecución abriremos kitty y lanzaremos cuatro terminales (prar abrir la
 
 * Segunda terminal
   En esta iniciaremos el nodo Master de ROS
-  ```
+  ```sh
   roscore
   ```
 
 * Tercera terminal
   En esta inicaremos el nodo de turtlesim
-  ```
+  ```sh
   rosrun turtlesim turtlesim_node
   ```
 
 * Cuarta terminal
   En esta inicaremos nuestro nodo de ros con la GUI
-  ```
+  ```sh
   rosrun ev3dev_ros GIU_Control.py
   ```
 

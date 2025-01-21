@@ -18,38 +18,10 @@ https://www.youtube.com/watch?v=ZKR8pdr7CnI
 #Impotación de las librerias necesarias
 import tkinter
 from tkinter import ttk
-import mqtt_remote_method_calls as com
-import GUI.styles.styles as styles
+import app.GUI.styles.styles as styles
+import app.MQTT.mqtt_remote_method_calls as com
+import app.MQTT.delegate as delegate
 
-#Creación de la clase personalizada para la recepción de mensajes MQTT
-class MyDelegate(object):
-
-    """ Los metodos de esta clase seran los que procesen los mensajes MQTT recibidos
-        los atributos seran elementos de control necesarios en el procesamiento """
-
-    def __init__(self):
-
-        #label donde se presentara los datos de orientación dado por el giro sensor
-        self.label = None
-
-    def setlabel(self,label):
-        #Función para declaración de label que se usara para datos del giro sensor
-        self.label = label
-
-    def print_message(self, message):
-        #Función para procesamiento de mensaje recibido de tipo "print_message"
-
-        #Impression del mesaje recibido
-        print("Message received:", message)
-
-    def Angle(self, angle):
-        #Función para procesamiento de mensaje recibido de tipo "Angle"
-
-        #Se pone el angulo en convencion anti-horaria
-        angle = angle*-1
-        #Actualización del label de presentación e impresion del angulo recibido
-        self.label.config(text=str(angle))
-        print("Angle received:", angle)
 
 #Función de creación de GIU
 def GUI():
@@ -146,7 +118,7 @@ def GUI():
     e_button['command'] = lambda: exit()
     root.bind('<e>', lambda event: exit())
 
-    StyleButton = styles.StyleButtonApp(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleButton = styles.StyleButton(root)  # Acceder a la clase a través de GUI.styles.styles
     StyleButton.apply_style(angle_button)
     StyleButton.apply_style(forward_button)
     StyleButton.apply_style(left_button)
@@ -158,16 +130,16 @@ def GUI():
     StyleButton.apply_style(q_button)
     StyleButton.apply_style(e_button)
 
-    StyleFrame = styles.FrameStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleFrame = styles.StyleFrame(root)  # Acceder a la clase a través de GUI.styles.styles
     StyleFrame.apply_style(main_frame)
 
-    Stylelabel = styles.LabelStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    Stylelabel = styles.StyleLabel(root)  # Acceder a la clase a través de GUI.styles.styles
     Stylelabel.apply_style(left_speed_label)
     Stylelabel.apply_style(right_speed_label)
     Stylelabel.apply_style(angle_label)
     Stylelabel.apply_style(angle_value_label)
 
-    StyleEntry = styles.EntryStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleEntry = styles.StyleEntry(root)  # Acceder a la clase a través de GUI.styles.styles
     StyleEntry.apply_style(left_speed_entry)
     StyleEntry.apply_style(right_speed_entry)
 
@@ -216,7 +188,7 @@ def send_message_special(mqtt_client, msg_special, msg):
 if __name__ == '__main__':
 
     #Cración de delegado para mensajes MQTT y cliente MQTT
-    my_delegate = MyDelegate()
+    my_delegate = delegate.PcDelegate()
     mqtt_client = com.MqttClient(my_delegate)
 
     #Creación de suscripcion a topico MQTT LEGOEV301/msgPC y publicacion en topico  LegoEV301/msgLegoEv3

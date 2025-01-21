@@ -9,7 +9,9 @@ class BaseStyle:
         self.root = root
         self.style = ttk.Style(root)
 
-    def apply_style(self, widget, style_name):
+    def apply_style(self, widget, style_name=None):
+        if style_name is None:
+            style_name = self.style_name
         """Aplica un estilo a un widget dado."""
         widget.config(style=style_name)
 
@@ -19,6 +21,8 @@ class StyleButton(BaseStyle):
 
     def __init__(self, root):
         super().__init__(root)
+
+        self.style_name = 'Personality.TButton'
         # Configuración del estilo para botones
         self.style.configure(
             'Personality.TButton',
@@ -40,6 +44,8 @@ class StyleFrame(BaseStyle):
 
     def __init__(self, root):
         super().__init__(root)
+
+        self.style_name = 'Personality.TFrame'
         # Configuración del estilo para frames
         self.style.configure(
             'Personality.TFrame',
@@ -54,6 +60,8 @@ class StyleLabel(BaseStyle):
 
     def __init__(self, root):
         super().__init__(root)
+
+        self.style_name = 'Personality.TLabel'
         # Configuración del estilo para etiquetas
         self.style.configure(
             'Personality.TLabel',
@@ -69,6 +77,8 @@ class StyleEntry(BaseStyle):
 
     def __init__(self, root):
         super().__init__(root)
+
+        self.style_name = 'Personality.TEntry'
         # Configuración del estilo para campos de entrada
         self.style.configure(
             'Personality.TEntry',

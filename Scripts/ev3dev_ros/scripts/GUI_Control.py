@@ -146,17 +146,30 @@ def GUI():
     e_button['command'] = lambda: exit()
     root.bind('<e>', lambda event: exit())
 
-    app = styles.StyleButtonApp(root)  # Acceder a la clase a través de GUI.styles.styles
-    app.apply_style(angle_button)
-    app.apply_style(forward_button)
-    app.apply_style(left_button)
-    app.apply_style(stop_button)
-    app.apply_style(right_button)
-    app.apply_style(back_button)
-    app.apply_style(up_button)
-    app.apply_style(down_button)
-    app.apply_style(q_button)
-    app.apply_style(e_button)
+    StyleButton = styles.StyleButtonApp(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleButton.apply_style(angle_button)
+    StyleButton.apply_style(forward_button)
+    StyleButton.apply_style(left_button)
+    StyleButton.apply_style(stop_button)
+    StyleButton.apply_style(right_button)
+    StyleButton.apply_style(back_button)
+    StyleButton.apply_style(up_button)
+    StyleButton.apply_style(down_button)
+    StyleButton.apply_style(q_button)
+    StyleButton.apply_style(e_button)
+
+    StyleFrame = styles.FrameStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleFrame.apply_style(main_frame)
+
+    Stylelabel = styles.LabelStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    Stylelabel.apply_style(left_speed_label)
+    Stylelabel.apply_style(right_speed_label)
+    Stylelabel.apply_style(angle_label)
+    Stylelabel.apply_style(angle_value_label)
+
+    StyleEntry = styles.EntryStyle(root)  # Acceder a la clase a través de GUI.styles.styles
+    StyleEntry.apply_style(left_speed_entry)
+    StyleEntry.apply_style(right_speed_entry)
 
     """Ciclo infinito de ejecución de la GIU"""
     root.mainloop()

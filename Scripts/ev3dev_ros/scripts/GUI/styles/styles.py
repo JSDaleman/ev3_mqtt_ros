@@ -1,50 +1,124 @@
 import tkinter as tk
 from tkinter import ttk
 
-class StyleButtonApp:
+
+class BaseStyle:
+    """Clase base para aplicar estilos personalizados a los widgets."""
+
     def __init__(self, root):
         self.root = root
+        self.style = ttk.Style(root)
 
-        # Crear un objeto Style para personalizar los estilos
-        self.style = ttk.Style()
+    def apply_style(self, widget, style_name):
+        """Aplica un estilo a un widget dado."""
+        widget.config(style=style_name)
 
-        #Paleta de colores https://colorhunt.co/palette/001f3f3a6d8c6a9ab0ead8b1
-        # Definir un estilo personalizado para los botones
-        self.style.configure('Personality.TButton',  # Nombre del estilo
-                             font=('Roboto', 12),         # Fuente
-                             foreground='#EAD8B1',        # Color del texto
-                             background='#6A9AB0',        # Color de fondo
-                             relief='flat',                  # Borde plano
-                             padding=2                      # Espaciado interno
-                            )
 
-        self.style.map('Personality.TButton',  # Nombre del estilo
-                       foreground=[('pressed', '#6A9AB0'), ('active', '#3E5879')],  # Color del texto cuando está presionado o activo
-                       background=[('pressed', '#213555'), ('active', '#EAD8B1')] # Color de fondo cuando está presionado o activo
-                      )
-    
-    def apply_style(self, button):
-        # Aplicar el estilo al botón proporcionado
-        button.config(style='Personality.TButton')
+class StyleButton(BaseStyle):
+    """Clase para aplicar estilos personalizados a los botones."""
+
+    def __init__(self, root):
+        super().__init__(root)
+        # Configuración del estilo para botones
+        self.style.configure(
+            'Personality.TButton',
+            font=('Roboto', 12),
+            foreground='#EAD8B1',
+            background='#6A9AB0',
+            relief='flat',
+            padding=2
+        )
+        self.style.map(
+            'Personality.TButton',
+            foreground=[('pressed', '#6A9AB0'), ('active', '#3E5879')],
+            background=[('pressed', '#213555'), ('active', '#EAD8B1')]
+        )
+
+
+class StyleFrame(BaseStyle):
+    """Clase para aplicar estilos personalizados a los frames."""
+
+    def __init__(self, root):
+        super().__init__(root)
+        # Configuración del estilo para frames
+        self.style.configure(
+            'Personality.TFrame',
+            background='#DCE6F0',
+            relief='raised',
+            borderwidth=2
+        )
+
+
+class StyleLabel(BaseStyle):
+    """Clase para aplicar estilos personalizados a las etiquetas."""
+
+    def __init__(self, root):
+        super().__init__(root)
+        # Configuración del estilo para etiquetas
+        self.style.configure(
+            'Personality.TLabel',
+            font=('Roboto', 12, 'bold'),
+            foreground='#2C3E50',
+            background='#E8F0F8',
+            padding=5
+        )
+
+
+class StyleEntry(BaseStyle):
+    """Clase para aplicar estilos personalizados a los campos de entrada."""
+
+    def __init__(self, root):
+        super().__init__(root)
+        # Configuración del estilo para campos de entrada
+        self.style.configure(
+            'Personality.TEntry',
+            font=('Roboto', 12),
+            foreground='#34495E',
+            fieldbackground='#ECF0F1',
+            padding=5
+        )
+        self.style.map(
+            'Personality.TEntry',
+            focusbackground=[('focus', '#2980B9')],
+            foreground=[('disabled', '#7F8C8D')]
+        )
 
 
 def main():
     # Crear la ventana principal
     root = tk.Tk()
-    root.title("Aplicación con Estilos de Botones")
+    root.title("Aplicación con Estilos Personalizados")
+    root.geometry("400x400")
 
-    # Crear un botón en la ventana principal
-    button = ttk.Button(root, text="Haz clic aquí", command=lambda: print("¡Botón presionado!"))
-    button.pack(pady=20)
+    # Instanciar los estilos
+    button_style = StyleButton(root)
+    frame_style = StyleFrame(root)
+    label_style = StyleLabel(root)
+    entry_style = StyleEntry(root)
 
-    # Crear el objeto de la clase StyleButtonApp
-    app = StyleButtonApp(root)
+    # Crear un frame y aplicar estilo
+    frame = ttk.Frame(root)
+    frame_style.apply_style(frame, 'Personality.TFrame')
+    frame.pack(padx=10, pady=10, fill='both', expand=True)
 
-    # Aplicar el estilo al botón
-    app.apply_style(button)
+    # Crear un label y aplicar estilo
+    label = ttk.Label(frame, text="Etiqueta con estilo personalizado")
+    label_style.apply_style(label, 'Personality.TLabel')
+    label.pack(pady=10)
+
+    # Crear un entry y aplicar estilo
+    entry = ttk.Entry(frame)
+    entry_style.apply_style(entry, 'Personality.TEntry')
+    entry.pack(pady=10)
+
+    # Crear un botón y aplicar estilo
+    button = ttk.Button(frame, text="Haz clic aquí")
+    button_style.apply_style(button, 'Personality.TButton')
+    button.pack(pady=10)
 
     # Iniciar la aplicación
     root.mainloop()
+
 
 if __name__ == "__main__":
     main()

@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
 """
-Nombre del programa: robot_control.py
-Autor: Juan Sebastian Daleman Martinez
-Curso: Fundamentos de robotica movil
-Departamento de Ingeniería Mecánica y Mecatrónica
-Universidad Nacional de Colombia - Sede Bogotá
-Año: 2024-1S.
-
-Programa para creación de libreria para el manejo 
+Modulo para el manejo 
 de diferentes tipos de robots creados con el ev3 
 con diferentes condiciones de motores sensores y construcción.
 """
+
+__author__ = "Juan Sebastian Daleman Martine"
+__copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
+__credits__ = ["David Fisher"]
+__license__ = "MIT"
+__version__ = "0.0.2"
+__maintainer__ = "Juan Sebastian Daleman Martine"
+__email__ = "jdaleman@unal.edu.co"
+__status__ = "Development"
 
 #Impotación de las librerias necesarias
 from ev3dev2.motor import OUTPUT_B, OUTPUT_C, MoveTank, SpeedPercent, MediumMotor

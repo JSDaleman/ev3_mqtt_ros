@@ -154,7 +154,7 @@ def GUI():
     app.apply_style(right_button)
     app.apply_style(back_button)
     app.apply_style(up_button)
-    #app.apply_style(down_button)
+    app.apply_style(down_button)
     app.apply_style(q_button)
     app.apply_style(e_button)
 

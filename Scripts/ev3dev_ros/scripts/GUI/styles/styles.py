@@ -8,16 +8,19 @@ class StyleButtonApp:
         # Crear un objeto Style para personalizar los estilos
         self.style = ttk.Style()
 
+        #Paleta de colores https://colorhunt.co/palette/001f3f3a6d8c6a9ab0ead8b1
         # Definir un estilo personalizado para los botones
         self.style.configure('Personality.TButton',  # Nombre del estilo
                              font=('Roboto', 12),         # Fuente
+                             foreground='#EAD8B1',        # Color del texto
+                             background='#6A9AB0',        # Color de fondo
                              relief='flat',                  # Borde plano
                              padding=2                      # Espaciado interno
                             )
 
         self.style.map('Personality.TButton',  # Nombre del estilo
-                       foreground=[('pressed', '#3E5879'), ('active', '#3E5879'), ('disabled', 'black')],  # Color del texto cuando está presionado o activo
-                       background=[('pressed', '#213555'), ('active', '#D8C4B6'), ('disabled', '#3E5879')] # Color de fondo cuando está presionado o activo
+                       foreground=[('pressed', '#6A9AB0'), ('active', '#3E5879')],  # Color del texto cuando está presionado o activo
+                       background=[('pressed', '#213555'), ('active', '#EAD8B1')] # Color de fondo cuando está presionado o activo
                       )
     
     def apply_style(self, button):

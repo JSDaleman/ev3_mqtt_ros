@@ -18,10 +18,8 @@ https://www.youtube.com/watch?v=ZKR8pdr7CnI
 #Impotación de las librerias necesarias
 import tkinter
 from tkinter import ttk
-import rospy
-import math
-from geometry_msgs.msg import Twist
 import mqtt_remote_method_calls as com
+import GUI.styles.styles as styles
 
 #Creación de la clase personalizada para la recepción de mensajes MQTT
 class MyDelegate(object):
@@ -33,14 +31,6 @@ class MyDelegate(object):
 
         #label donde se presentara los datos de orientación dado por el giro sensor
         self.label = None
-
-        #Variable de control para la actualización de la orientación del turtlesim
-        self.Orientation = 0
-
-        #Elementos para el mensaje del control de la tortuga de turtlesim
-        self.cmd_vel_msg = Twist()
-        self.cmd_vel_msg.linear.x = 0
-        self.cmd_vel_msg.linear.y = 0
 
     def setlabel(self,label):
         #Función para declaración de label que se usara para datos del giro sensor
@@ -60,20 +50,9 @@ class MyDelegate(object):
         #Actualización del label de presentación e impresion del angulo recibido
         self.label.config(text=str(angle))
         print("Angle received:", angle)
-        
-        #Declaración de velocidad angular del mensaje para el turtlesim 
-        self.cmd_vel_msg.angular.z = 0
-
-        #Verificación orientación y actualizar el valor según el valor recibido de angulo 
-        if self.Orientation != angle:
-            self.cmd_vel_msg.angular.z = ((angle-self.Orientation)*(math.pi/180))
-            self.Orientation = angle
-
-        # Publicación del mensaje Twist para el control de la tortuga
-        turtle_vel_pub.publish(self.cmd_vel_msg)
 
 #Función de creación de GIU
-def GIU():
+def GUI():
 
     #Creación de ventana principal del GIU y titulo de este
     root = tkinter.Tk()
@@ -167,6 +146,18 @@ def GIU():
     e_button['command'] = lambda: exit()
     root.bind('<e>', lambda event: exit())
 
+    app = styles.StyleButtonApp(root)  # Acceder a la clase a través de GUI.styles.styles
+    app.apply_style(angle_button)
+    app.apply_style(forward_button)
+    app.apply_style(left_button)
+    app.apply_style(stop_button)
+    app.apply_style(right_button)
+    app.apply_style(back_button)
+    app.apply_style(up_button)
+    #app.apply_style(down_button)
+    app.apply_style(q_button)
+    app.apply_style(e_button)
+
     """Ciclo infinito de ejecución de la GIU"""
     root.mainloop()
     
@@ -211,15 +202,6 @@ def send_message_special(mqtt_client, msg_special, msg):
 #ejecucón de script como principal o como modulo
 if __name__ == '__main__':
 
-    #Creación de nodo de ROS
-    rospy.init_node('mqtt_to_ros_node', anonymous=True)
-    #rate = rospy.Rate(10)
-
-    #Creación de publicadores y suscriptores del nodo
-    global turtle_vel_pub
-    turtle_vel_pub = rospy.Publisher('/turtle1/cmd_vel', Twist, queue_size=10)
-
-
     #Cración de delegado para mensajes MQTT y cliente MQTT
     my_delegate = MyDelegate()
     mqtt_client = com.MqttClient(my_delegate)
@@ -228,7 +210,7 @@ if __name__ == '__main__':
     mqtt_client.connect_to_ev3()
     
     #Llamado a GIU
-    GIU()
+    GUI()
 
     #Cerrado del cliente MQTT
     mqtt_client.close()

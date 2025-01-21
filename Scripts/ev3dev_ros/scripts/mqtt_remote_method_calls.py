@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 """
-Nombre del programa: mqtt_remote_method_calls.py
-Autor: Juan Sebastian Daleman Martinez
-Curso: Fundamentos de robotica movil
-Departamento de Ingeniería Mecánica y Mecatrónica
-Universidad Nacional de Colombia - Sede Bogotá
-Año: 2024-1S.
-
-Programa para creación de cliente MQTT con todos los elementos
-necesarios en el protocolo.
-Este programa esta basado en la serie de videos de: David Fisher 
-https://www.youtube.com/watch?v=ZKR8pdr7CnI
+Modulo de creación de cliente MQTT con elementos necesarios del
+protocolo para uso con Robot Ev3 y PC.
 """
+
+__author__ = "Juan Sebastian Daleman Martine"
+__copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
+__credits__ = ["David Fisher"]
+__license__ = "MIT"
+__version__ = "0.0.2"
+__maintainer__ = "Juan Sebastian Daleman Martine"
+__email__ = "jdaleman@unal.edu.co"
+__status__ = "Development"
 
 #Impotación de las librerias necesarias
 import json
@@ -20,14 +20,17 @@ import paho.mqtt.client as paho
 from collections.abc import Iterable
 from paho import mqtt
 
-#Dirección IP del broker MQTT usado por defecto
-mqtt_broker_ip_address = "e9d73965c3fe4220b51bf8e5f1365a27.s1.eu.hivemq.cloud"
-
-#Declaración de número de indentificación del robot
-Lego_ID = 1
-
 class MqttClient(object):
-    def __init__(self, delegate=None):
+    def __init__(self, delegate=None, ID=1, mqqt_borker_ip="e9d73965c3fe4220b51bf8e5f1365a27.s1.eu.hivemq.cloud"):
+        #Dirección IP del broker MQTT usado por defecto
+        self.mqtt_broker_ip_address = mqqt_borker_ip
+
+        #Declaración de número de indentificación del robot
+        self.Lego_ID = ID
+
+        #Declaración del cliente y un delegado opcional de manejo de datos
+        #Para funcionar en el Ev3 se quita la api version
+        #ya que la verison que se usa en el robot de paho.mqtt.client es la 1.
         #Declaración del cliente y un delegado opcional de manejo de datos
         self.client = paho.Client(callback_api_version=paho.CallbackAPIVersion.VERSION2, client_id="", userdata=None, protocol=paho.MQTTv5)
         self.delegate = delegate
@@ -39,17 +42,34 @@ class MqttClient(object):
         #Declaración de puerto de conexión del broker MQTT
         self.port = 8883
 
-    def connect_to_ev3(self, mqtt_broker_ip_address=mqtt_broker_ip_address, lego_robot_number=Lego_ID):
+    def connect_to_ev3(self, mqtt_broker_ip_address=None, lego_robot_number=None):
+        
+        if mqtt_broker_ip_address is None:
+            mqtt_broker_ip_address = self.mqtt_broker_ip_address
+        if lego_robot_number is None:
+            lego_robot_number = self.Lego_ID
+
         #Función para conectarse al Ev3
         #Sufijos para conectar el PC al Ev3
         self.connect("msgPC", "msgLegoEv3", mqtt_broker_ip_address, lego_robot_number)
 
-    def connect_to_pc(self, mqtt_broker_ip_address=mqtt_broker_ip_address, lego_robot_number=Lego_ID):
+    def connect_to_pc(self,  mqtt_broker_ip_address=None, lego_robot_number=None):
+
+        if mqtt_broker_ip_address is None:
+            mqtt_broker_ip_address = self.mqtt_broker_ip_address
+        if lego_robot_number is None:
+            lego_robot_number = self.Lego_ID
+
         #Función para conectarse al PC
         #Sufijos para conectar el EV3 al PC
         self.connect("msgLegoEv3", "msgPC", mqtt_broker_ip_address, lego_robot_number)
 
-    def connect(self, subscription_suffix, publish_suffix, mqtt_broker_ip_address=mqtt_broker_ip_address, lego_robot_number=Lego_ID):
+    def connect(self, subscription_suffix, publish_suffix, mqtt_broker_ip_address=None, lego_robot_number=None):
+
+        if mqtt_broker_ip_address is None:
+            mqtt_broker_ip_address = self.mqtt_broker_ip_address
+        if lego_robot_number is None:
+            lego_robot_number = self.Lego_ID
         
         #Declaración de ID del robot y sufijos necesarios para el topico MQTT
         Robot_name = "LegoEV3" + str(lego_robot_number).zfill(2)
@@ -111,8 +131,7 @@ class MqttClient(object):
         else:
             print(" ... Error!!!")
             #Si se presenta un error de conexión descomente la siguente linea y verique que lo causa
-            """
-            0: Connection successful    
+            """0: Connection successful
             1: Connection refused - incorrect protocol version
             2: Connection refused - invalid client identifier
             3: Connection refused - server unavailable
@@ -122,7 +141,7 @@ class MqttClient(object):
             #print("CONNACK received with code %s." % rc)
             exit()
 
-
+        
         #Impresión de cual es el topico de publicación al que se conecto
         print("Publishing to topic:", self.publish_topic_name)
 
@@ -225,4 +244,3 @@ class MqttClient(object):
         self.delegate = None
         self.client.loop_stop()
         self.client.disconnect()
-

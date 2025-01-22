@@ -1,3 +1,13 @@
+
+__author__ = "Juan Sebastian Daleman Martine"
+__copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
+__credits__ = ["David Fisher"]
+__license__ = "MIT"
+__version__ = "0.0.2"
+__maintainer__ = "Juan Sebastian Daleman Martine"
+__email__ = "jdaleman@unal.edu.co"
+__status__ = "Development"
+
 #Creación de la clase personalizada para la recepción de mensajes MQTT
 class PcDelegate(object):
 

@@ -1,19 +1,13 @@
 #!/usr/bin/env python3
 
-"""
-Nombre del programa: GIU_Control.py
-Autor: Juan Sebastian Daleman Martinez
-Curso: Fundamentos de robotica movil
-Departamento de Ingeniería Mecánica y Mecatrónica
-Universidad Nacional de Colombia - Sede Bogotá
-Año: 2024-1S.
-
-Programa para el control de un robot Ev3 usando el sistema ev3dev
-a traves de una GIU para el usuario y mensajes jason por protocolo MQTT
-para el manejo de motores y obtención de datos de un giro sensor.
-Este programa esta basado en la serie de videos de: David Fisher 
-https://www.youtube.com/watch?v=ZKR8pdr7CnI
-"""
+__author__ = "Juan Sebastian Daleman Martine"
+__copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
+__credits__ = ["David Fisher"]
+__license__ = "MIT"
+__version__ = "0.0.2"
+__maintainer__ = "Juan Sebastian Daleman Martine"
+__email__ = "jdaleman@unal.edu.co"
+__status__ = "Development"
 
 #Impotación de las librerias necesarias
 import tkinter

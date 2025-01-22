@@ -33,6 +33,7 @@ def GUI():
     #Creación de frame y grid para grilla de posicion de elementos
     main_frame = ttk.Frame(root, padding=20)
     main_frame.grid()
+    main_frame.pack(padx=2, pady=2, fill='both', expand=True)
 
     """Creación de cuadro de texto para obtener valor de velocidad
        del motor izquierdo y etiqueta descritiva para el usuario"""

@@ -10,6 +10,9 @@ __status__ = "Development"
 import tkinter as tk
 from tkinter import ttk
 
+#Paletas de colores
+#https://colorhunt.co/palette/f3f3e0133e87608bc1cbdceb
+#https://colorhunt.co/palette/001f3f3a6d8c6a9ab0ead8b1
 
 class BaseStyle:
     """Clase base para aplicar estilos personalizados a los widgets."""
@@ -58,9 +61,10 @@ class StyleFrame(BaseStyle):
         # Configuración del estilo para frames
         self.style.configure(
             'Personality.TFrame',
-            background='#DCE6F0',
-            relief='raised',
-            borderwidth=2
+            background='#CBDCEB',
+            relief='solid',
+            bordercolor='#133E87',
+            borderwidth=1
         )
 
 
@@ -75,8 +79,8 @@ class StyleLabel(BaseStyle):
         self.style.configure(
             'Personality.TLabel',
             font=('Roboto', 12, 'bold'),
-            foreground='#2C3E50',
-            background='#E8F0F8',
+            foreground='#3E5879',
+            background='#CBDCEB',
             padding=5
         )
 
@@ -92,8 +96,8 @@ class StyleEntry(BaseStyle):
         self.style.configure(
             'Personality.TEntry',
             font=('Roboto', 12),
-            foreground='#34495E',
-            fieldbackground='#ECF0F1',
+            foreground='#3E5879',
+            fieldbackground='#F3F3E0',
             padding=5
         )
         self.style.map(

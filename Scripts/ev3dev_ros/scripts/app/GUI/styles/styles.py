@@ -27,6 +27,21 @@ class BaseStyle:
         """Aplica un estilo a un widget dado."""
         widget.config(style=style_name)
 
+class StyleFrame(BaseStyle):
+    """Clase para aplicar estilos personalizados a los frames."""
+
+    def __init__(self, root):
+        super().__init__(root)
+
+        self.style_name = 'Personality.TFrame'
+        # Configuración del estilo para frames
+        self.style.configure(
+            'Personality.TFrame',
+            background='#CBDCEB',
+            relief='solid',
+            bordercolor='#133E87',
+            borderwidth=1
+        )
 
 class StyleButton(BaseStyle):
     """Clase para aplicar estilos personalizados a los botones."""
@@ -48,23 +63,6 @@ class StyleButton(BaseStyle):
             'Personality.TButton',
             foreground=[('pressed', '#6A9AB0'), ('active', '#3E5879')],
             background=[('pressed', '#213555'), ('active', '#EAD8B1')]
-        )
-
-
-class StyleFrame(BaseStyle):
-    """Clase para aplicar estilos personalizados a los frames."""
-
-    def __init__(self, root):
-        super().__init__(root)
-
-        self.style_name = 'Personality.TFrame'
-        # Configuración del estilo para frames
-        self.style.configure(
-            'Personality.TFrame',
-            background='#CBDCEB',
-            relief='solid',
-            bordercolor='#133E87',
-            borderwidth=1
         )
 
 

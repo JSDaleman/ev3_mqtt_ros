@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 __author__ = "Juan Sebastian Daleman Martine"
 __copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
 __credits__ = ["David Fisher"]

@@ -31,7 +31,8 @@ class MqttClient(object):
         #Declaración del cliente y un delegado opcional de manejo de datos
         #Para funcionar en el Ev3 se quita la api version
         #ya que la verison que se usa en el robot de paho.mqtt.client es la 1.
-        self.client = paho.Client( client_id="", userdata=None, protocol=paho.MQTTv5)
+        #Declaración del cliente y un delegado opcional de manejo de datos
+        self.client = paho.Client(callback_api_version=paho.CallbackAPIVersion.VERSION2, client_id="", userdata=None, protocol=paho.MQTTv5)
         self.delegate = delegate
 
         #Declaración de topico de suscripción y publicación 

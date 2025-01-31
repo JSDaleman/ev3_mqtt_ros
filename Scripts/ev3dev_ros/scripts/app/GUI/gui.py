@@ -18,17 +18,15 @@ class GUI(tkinter.Tk):
         
 
 if __name__ == '__main__':
-    import tkinter as tk
-
     # Crear la ventana principal
-    root = tk.Tk()
+    root = tkinter.Tk()
     root.title("Comportamiento de tecla Right")
 
     # Etiqueta de instrucción
-    tk.Label(root, text="Escribe algo en el cuadro de texto:").pack(pady=10)
+    tkinter.Label(root, text="Escribe algo en el cuadro de texto:").pack(pady=10)
 
     # Crear el Entry
-    entry = tk.Entry(root, width=30)
+    entry = tkinter.Entry(root, width=30)
     entry.pack(pady=10)
 
     # Asignar binding para capturar la tecla Right
@@ -41,7 +39,7 @@ if __name__ == '__main__':
     def mostrar_texto():
         print("Texto ingresado:", entry.get())
 
-    tk.Button(root, text="Mostrar Texto", command=mostrar_texto).pack(pady=10)
+    tkinter.Button(root, text="Mostrar Texto", command=mostrar_texto).pack(pady=10)
 
     # Iniciar el bucle principal
     root.mainloop()

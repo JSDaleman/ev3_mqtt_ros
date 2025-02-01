@@ -4,9 +4,34 @@ import app.mqtt.messages as messages
 
 class ControlKeys():
       
-      def __init__(self, master, mqtt_client):
+    def __init__(self, master, mqtt_client):
         self.master = master
         self.mqtt_client = mqtt_client
+        self.cooldown_time = 1000
+        self.key_locked = False  # Estado de bloqueo
+        self.active_keys = set()  # Almacena teclas activas
+        self.realse_keys = ["q", "p"]
+        self.master.bind_all("<KeyPress>", self.handle_key)
+        self.master.bind_all("<KeyRelease>", self.handle_key_release)
+
+    def handle_key(self, event):
+        """Maneja cualquier tecla presionada y bloquea nuevas pulsaciones por un tiempo."""
+        if self.key_locked:
+            return  
+
+        self.key_locked = True
+        self.active_keys.add(event.keysym)
+        print(f"Comando enviado: {event.keysym}")
+
+        self.master.after(self.cooldown_time, self.unlock_keys)
+
+    def handle_key_release(self, event):
+        if event.keysym in self.active_keys and event.keysym in self.realse_keys:
+            print(f"Tecla {event.keysym} suelta")
+            self.active_keys.remove(event.keysym)
+
+    def unlock_keys(self):
+        self.key_locked = False
 
 class DifferentialControlKeys(ControlKeys):
       
@@ -16,8 +41,6 @@ class DifferentialControlKeys(ControlKeys):
         self.right_speed_entry = None
         self.left_speed_entry = None
         self.angle_value_label = None
-
-        self.entries = [self.right_speed_entry, self.left_speed_entry]
 
     def set_right_speed_entry(self, right_speed_entry):
         self.right_speed_entry = right_speed_entry
@@ -106,6 +129,10 @@ class DifferentialControlKeys(ControlKeys):
         except ValueError:
             print("Please enter a valid number")
 
+    def control_key_e(self, event):
+        messages.send_message_special(self.mqtt_client, "shutdown", "Exit key")
+        exit()
+
     def set_keys_control(self):
 
         self.master.bind("<Button-1>", lambda event: self.remove_focus(event))
@@ -120,9 +147,21 @@ class DifferentialControlKeys(ControlKeys):
         self.master.bind('<u>', lambda event: messages.send_message_special(self.mqtt_client, "arm_up", "Up key"))
         self.master.bind('<j>', lambda event: messages.send_message_special(self.mqtt_client, "arm_down", "Down key"))
         self.master.bind('<q>', lambda event: messages.send_message_special(self.mqtt_client, "Quit", "Quit key"))
-        self.master.bind('<e>', lambda event: exit())
+        self.master.bind('<e>', lambda event: self.control_key_e(event))
         
 
-        
+    def unset_keys_control(self):
+        self.master.unbind("<Button-1>")
+        self.master.unbind('<Up>')
+        self.master.unbind('<Left>')
+        self.master.unbind('<Right>')
+        self.master.unbind('<Down>')
+        self.master.unbind('<a>')
+        self.master.unbind('<space>')
+        self.master.unbind('<u>')
+        self.master.unbind('<j>')
+        self.master.unbind('<q>')
+        self.master.unbind('<e>')
 
-    
+
+

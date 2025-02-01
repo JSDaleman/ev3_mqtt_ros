@@ -26,6 +26,20 @@ from ev3dev2.wheel import EV3EducationSetTire
 import time
 import sys
 
+class RobotControl():
+    def __init__(self):
+        self.sound = Sound()
+        self.leds = Leds()
+
+    def ConnectPeripherals(self, prefiferial, *args):
+
+        try:
+            return prefiferial(*args)  # Intenta inicializar el dispositivo con sus parámetros
+        except Exception as e:
+            print(f"Error al inicializar {prefiferial.__name__}: {e}")
+            sys.exit(1)
+
+
 
 
 """Creación de la clase personalizada para manejar un robot de tracción diferencial
@@ -37,16 +51,16 @@ Motores:
 Sensores:
     -Puerto_2: Giro sensor
 """
-class DifferentialDrive(object):
+class DifferentialDrive(RobotControl):
 
     def __init__(self):
-        
-        
+        super.__init__()
+
         #Se inicializan los motores y el giroscopio
-        self.motor_a = motor.MediumMotor('outA')
-        self.tank = MoveTank(OUTPUT_B, OUTPUT_C)
-        self.tank.gyro = GyroSensor()
-        self.gyro = GyroSensor()
+        self.motor_a = self.ConnectPeripherals(motor.MediumMotor, 'outA')
+        self.tank = self.ConnectPeripherals(MoveTank, OUTPUT_B, OUTPUT_C)
+        self.tank.gyro = self.ConnectPeripherals(GyroSensor)
+        self.gyro = self.ConnectPeripherals(GyroSensor)
 
         # Calibrar el giroscopio
         self.tank.gyro.calibrate()
@@ -60,11 +74,8 @@ class DifferentialDrive(object):
         # Definir el tipo de llanta usado
         self.llanta = EV3EducationSetTire()
 
-        #Sonido
-        self.sound = Sound()
-
         #Tiempo de funcionamiento 
-        self.seconds = 0.4
+        self.seconds = 0.2
         self.speed = 30
 
 
@@ -79,7 +90,7 @@ class DifferentialDrive(object):
             if ((left_speed == (-1*right_speed)) or ((-1*left_speed) == right_speed)) :
                 self.tank.on_for_seconds(left_speed, right_speed, self.seconds, brake=True, block=True)
             else:
-                self.tank.on(left_speed, right_speed)
+                self.tank.on_for_seconds(left_speed, right_speed, self.seconds, brake=False, block=False)
 
         except:
 
@@ -101,13 +112,9 @@ class DifferentialDrive(object):
     def Quit(self):
         #Función para salir de la rutina parando todos los movimientos
         self.tank.stop()
-        self.motor_a.stop()
         print("Quit to the routing")
-        self.running = False
         Leds().set_color("LEFT", "BLACK")
         Leds().set_color("RIGHT", "BLACK")
-        sys.exit()
-        broke
 
     def orientation(self):
         #Función para dar la orientación dada por el giro sensor
@@ -121,8 +128,8 @@ class DifferentialDrive(object):
 
     def shutdown(self):
         #Función para apagar la rutina si el cliente MQTT se cierra
-        self.sound.speak('Goodbye')
+        self.tank.stop()
         self.running = False
+        self.sound.speak('Goodbye')
         Leds().set_color("LEFT", "BLACK")
         Leds().set_color("RIGHT", "BLACK")
-        sys.exit()

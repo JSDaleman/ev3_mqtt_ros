@@ -88,4 +88,5 @@ class DifferentialControlButtons(ControlButtons):
         messages.send_message_special(self.mqtt_client, "Quit", "Quit button")
 
     def send_exit(self):
+        messages.send_message_special(self.mqtt_client, "shutdown", "Exit key")
         exit()

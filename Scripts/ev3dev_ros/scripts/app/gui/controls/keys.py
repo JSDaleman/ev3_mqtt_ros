@@ -3,35 +3,28 @@
 import app.mqtt.messages as messages
 
 class ControlKeys():
-      
     def __init__(self, master, mqtt_client):
         self.master = master
         self.mqtt_client = mqtt_client
-        self.cooldown_time = 1000
-        self.key_locked = False  # Estado de bloqueo
-        self.active_keys = set()  # Almacena teclas activas
-        self.realse_keys = ["q", "p"]
-        self.master.bind_all("<KeyPress>", self.handle_key)
-        self.master.bind_all("<KeyRelease>", self.handle_key_release)
+        self.active_keys = set()  # Conjunto de teclas activas
+        self.release_keys = set()  # Teclas que deben imprimir al soltar
+
+        # Bind global para todas las teclas
+        self.master.bind_all("<KeyPress>", self.handle_key, add="+")
+        self.master.bind_all("<KeyRelease>", self.handle_key_release, add="+")
 
     def handle_key(self, event):
-        """Maneja cualquier tecla presionada y bloquea nuevas pulsaciones por un tiempo."""
-        if self.key_locked:
-            return  
-
-        self.key_locked = True
+        """Maneja cualquier tecla presionada."""
         self.active_keys.add(event.keysym)
-        print(f"Comando enviado: {event.keysym}")
-
-        self.master.after(self.cooldown_time, self.unlock_keys)
+        print(f"Tecla presionada: {event.keysym}")
 
     def handle_key_release(self, event):
-        if event.keysym in self.active_keys and event.keysym in self.realse_keys:
-            print(f"Tecla {event.keysym} suelta")
+        """Maneja la liberación de una tecla."""
+        if event.keysym in self.active_keys:
             self.active_keys.remove(event.keysym)
 
-    def unlock_keys(self):
-        self.key_locked = False
+            if event.keysym in self.release_keys:
+                print(f"Tecla {event.keysym} suelta")
 
 class DifferentialControlKeys(ControlKeys):
       
@@ -72,7 +65,7 @@ class DifferentialControlKeys(ControlKeys):
             value_left = int(self.left_speed_entry.get())
             speed = max(value_right, value_left)
             messages.send_message_movtank(self.mqtt_client, speed, speed, "Forward key")
-
+            
         except ValueError:
             print("Please enter a valid number")
 

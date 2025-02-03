@@ -6,25 +6,6 @@ class ControlKeys():
     def __init__(self, master, mqtt_client):
         self.master = master
         self.mqtt_client = mqtt_client
-        self.active_keys = set()  # Conjunto de teclas activas
-        self.release_keys = set()  # Teclas que deben imprimir al soltar
-
-        # Bind global para todas las teclas
-        self.master.bind_all("<KeyPress>", self.handle_key, add="+")
-        self.master.bind_all("<KeyRelease>", self.handle_key_release, add="+")
-
-    def handle_key(self, event):
-        """Maneja cualquier tecla presionada."""
-        self.active_keys.add(event.keysym)
-        print(f"Tecla presionada: {event.keysym}")
-
-    def handle_key_release(self, event):
-        """Maneja la liberación de una tecla."""
-        if event.keysym in self.active_keys:
-            self.active_keys.remove(event.keysym)
-
-            if event.keysym in self.release_keys:
-                print(f"Tecla {event.keysym} suelta")
 
 class DifferentialControlKeys(ControlKeys):
       

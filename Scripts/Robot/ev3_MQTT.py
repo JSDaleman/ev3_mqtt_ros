@@ -94,31 +94,32 @@ class MyDelegate(object):
         self.robot.shutdown()
         sys.exit()
 
-
-def main():
-
-    #Impresión de que se ha iniciado el robot y se ponen los leds en rojo
-    print("Start robot")
-    Leds().set_color("LEFT", "RED")
-    Leds().set_color("RIGHT", "RED")
-
-    #Se crea el delegado de recepción de mensajes MQTT y se ponen los leds en amber
-    my_delegate = MyDelegate()
-    mqtt_client = com.MqttClient(my_delegate)
-    Leds().set_color("LEFT", "AMBER")
-    Leds().set_color("RIGHT", "AMBER")
-
-    #Se declara el cliente mqtt como el cliente que usara el delegado
-    my_delegate.setmqtt_client(mqtt_client)
-
-    #Se conecta al topico para sucricón y publicacion con el PC y se poenen los leds en verde
-    mqtt_client.connect_to_pc()
-    Leds().set_color("LEFT", "GREEN")
-    Leds().set_color("RIGHT", "GREEN")
-
-    #Se crea el bulce infinito de funcionamiento
-    my_delegate.loop_forever()
-    print("Shutdown complete")
-
 #Se inicial el main
-main()
+if __name__ == '__main__':
+    try:
+        #Impresión de que se ha iniciado el robot y se ponen los leds en rojo
+        print("Start robot")
+        Leds().set_color("LEFT", "RED")
+        Leds().set_color("RIGHT", "RED")
+
+        #Se crea el delegado de recepción de mensajes MQTT y se ponen los leds en amber
+        my_delegate = MyDelegate()
+        mqtt_client = com.MqttClient(my_delegate)
+        Leds().set_color("LEFT", "AMBER")
+        Leds().set_color("RIGHT", "AMBER")
+
+        #Se declara el cliente mqtt como el cliente que usara el delegado
+        my_delegate.setmqtt_client(mqtt_client)
+
+        #Se conecta al topico para sucricón y publicacion con el PC y se poenen los leds en verde
+        mqtt_client.connect_to_pc()
+        Leds().set_color("LEFT", "GREEN")
+        Leds().set_color("RIGHT", "GREEN")
+
+        #Se crea el bulce infinito de funcionamiento
+        my_delegate.loop_forever()
+        print("Shutdown complete")
+        mqtt_client.close()
+
+    except KeyboardInterrupt:
+        mqtt_client.close()

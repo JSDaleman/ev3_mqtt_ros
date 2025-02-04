@@ -1,70 +1,74 @@
 #!/usr/bin/env python3
 
-import tkinter as tk
-from tkinter import ttk
+from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton, QLayout, QGridLayout, QWidget,  QSizePolicy
 import app.gui.styles.styles as styles
 
-class BaseFrame(ttk.Frame):
 
-    def __init__(self, master, mqtt_client, delegate, padding=20):
-        super().__init__(master, padding=padding)
+class BaseFrame(QFrame):
+
+    def __init__(self, parent: QWidget, mqtt_client, delegate, padding=20):
+        super().__init__(parent)
         self.delegate = delegate
         self.mqtt_client = mqtt_client
 
-        StyleFrame = styles.StyleFrame(self.master) 
-        StyleFrame.apply_style(self)
+        self.layout = QGridLayout()
+        self.setLayout(self.layout)
+        self.layout.setContentsMargins(padding, padding, padding, padding)
+        self.layout.setSizeConstraint(QLayout.SetMinimumSize)
 
-    def create_widgets(self):
-        self.grid()
+        # Aplicar estilo al Frame
+        self.style_frame = styles.StyleFrame()
+        self.style_frame.apply_style(self)
 
     def create_label(self, text, row, col):
-        label = ttk.Label(self, text=text)
-        label.grid(row=row, column=col)
+        label = QLabel(text)
+        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.layout.addWidget(label, row, col)
         return label
 
-    def create_entry(self, row, col, index=0, text="", width=8, justify=tk.CENTER):
-        entry = ttk.Entry(self, width=width, justify=justify)
-        entry.insert(index, text)
-        entry.grid(row=row, column=col)
+    def create_entry(self, row, col, text="", width=8):
+        entry = QLineEdit()
+        entry.setMaxLength(width)
+        entry.setText(text)
+        entry.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.layout.addWidget(entry, row, col)
         return entry
 
     def create_button(self, text, row, col, command):
-        button = ttk.Button(self, text=text, command=command)
-        button.grid(row=row, column=col)
+        button = QPushButton(text)
+        button.clicked.connect(command)
+        button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.layout.addWidget(button, row, col)
         return button
 
+    def get_widgets_by_type(self, widget_type):
+        """Devuelve una lista de widgets de un tipo específico dentro del layout."""
+        return [self.layout.itemAt(i).widget() for i in range(self.layout.count())
+                if isinstance(self.layout.itemAt(i).widget(), widget_type)]
+
     def get_buttons(self):
-        buttons = []
-        for widget in self.winfo_children():
-            if isinstance(widget, (tk.Button, ttk.Button)):  # Verificar si el widget es un botón
-                buttons.append(widget)
-        return buttons
-    
+        return self.get_widgets_by_type(QPushButton)
+
     def get_entries(self):
-        entries = []
-        for widget in self.winfo_children():
-            if isinstance(widget, ttk.Entry):  # Verificar si el widget es un Entry
-                entries.append(widget)
-        return entries
+        return self.get_widgets_by_type(QLineEdit)
 
     def get_labels(self):
-        labels = []
-        for widget in self.winfo_children():
-            if isinstance(widget, ttk.Label):  # Verificar si el widget es un Label
-                labels.append(widget)
-        return labels
+        return self.get_widgets_by_type(QLabel)
 
     def style_buttons(self):
-        StyleButton = styles.StyleButton(self)
+        style_button = styles.StyleButton()
         for button in self.get_buttons():
-            StyleButton.apply_style(button)
+            style_button.apply_style(button)
 
     def style_labels(self):
-        StyleLabel = styles.StyleLabel(self)
+        style_label = styles.StyleLabel()
         for label in self.get_labels():
-            StyleLabel.apply_style(label)
+            style_label.apply_style(label)
 
     def style_entries(self):
-        StyleEntry = styles.StyleEntry(self)
+        style_entry = styles.StyleEntry()
         for entry in self.get_entries():
-            StyleEntry.apply_style(entry)
+            style_entry.apply_style(entry)
+
+    
+

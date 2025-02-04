@@ -9,7 +9,7 @@ __maintainer__ = "Juan Sebastian Daleman Martine"
 __email__ = "jdaleman@unal.edu.co"
 __status__ = "Development"
 
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFrame
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFrame, QMainWindow
 from PyQt5.QtGui import QFont
 from PyQt5.QtCore import Qt
 import sys
@@ -24,6 +24,17 @@ class BaseStyle:
     def apply_style(self, widget, style):
         widget.setStyleSheet(style)
 
+class StyleMainWindow(BaseStyle):
+    """Clase para aplicar estilos personalizados a la main window."""
+    def apply_style(self, main_window: QMainWindow):
+        style = """
+            QMainWindow {
+                background-color: #CBDCEB;
+                border-radius: 5px;
+                border: 1px solid #6A9AB0;
+            }
+        """
+        super().apply_style(main_window, style)
 
 class StyleFrame(BaseStyle):
     """Clase para aplicar estilos personalizados a los frames."""
@@ -32,7 +43,9 @@ class StyleFrame(BaseStyle):
         style = """
             QFrame {
                 background-color: #CBDCEB;
-                border: 1px solid #133E87;
+                border: none;
+                border-radius: 5px;
+                /* border: 1px solid #133E87; */
             }
         """
         super().apply_style(frame, style)
@@ -42,12 +55,13 @@ class StyleButton(BaseStyle):
     """Clase para aplicar estilos personalizados a los botones."""
 
     def apply_style(self, button: QPushButton):
+        button.setFont(QFont("Roboto", 12))
         style = """
             QPushButton {
-                font: 12pt "Roboto";
                 color: #EAD8B1;
                 background-color: #6A9AB0;
                 border: none;
+                border-radius: 5px;
                 padding: 5px;
             }
             QPushButton:hover {
@@ -72,6 +86,7 @@ class StyleLabel(BaseStyle):
                 background-color: #CBDCEB;
                 padding: 5px;
                 border: none;
+                border-radius: 5px;
                 text-align: center;
             }
         """
@@ -89,6 +104,7 @@ class StyleEntry(BaseStyle):
                 background-color: #F3F3E0;
                 border: 1px solid #133E87;
                 padding: 5px;
+                border-radius: 5px;
             }
             QLineEdit:focus {
                 border: 2px solid #2980B9;

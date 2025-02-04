@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton, QGridLayout, QWidget
+from PyQt5.QtWidgets import QFrame, QLabel, QLineEdit, QPushButton, QLayout, QGridLayout, QWidget,  QSizePolicy
 import app.gui.styles.styles as styles
 
 
@@ -14,6 +14,7 @@ class BaseFrame(QFrame):
         self.layout = QGridLayout()
         self.setLayout(self.layout)
         self.layout.setContentsMargins(padding, padding, padding, padding)
+        self.layout.setSizeConstraint(QLayout.SetMinimumSize)
 
         # Aplicar estilo al Frame
         self.style_frame = styles.StyleFrame()
@@ -21,6 +22,7 @@ class BaseFrame(QFrame):
 
     def create_label(self, text, row, col):
         label = QLabel(text)
+        label.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.layout.addWidget(label, row, col)
         return label
 
@@ -28,12 +30,14 @@ class BaseFrame(QFrame):
         entry = QLineEdit()
         entry.setMaxLength(width)
         entry.setText(text)
+        entry.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.layout.addWidget(entry, row, col)
         return entry
 
     def create_button(self, text, row, col, command):
         button = QPushButton(text)
         button.clicked.connect(command)
+        button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.layout.addWidget(button, row, col)
         return button
 
@@ -65,3 +69,6 @@ class BaseFrame(QFrame):
         style_entry = styles.StyleEntry()
         for entry in self.get_entries():
             style_entry.apply_style(entry)
+
+    
+

@@ -9,138 +9,137 @@ __maintainer__ = "Juan Sebastian Daleman Martine"
 __email__ = "jdaleman@unal.edu.co"
 __status__ = "Development"
 
-import tkinter as tk
-from tkinter import ttk
+from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QFrame
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt
+import sys
 
-#Paletas de colores
-#https://colorhunt.co/palette/f3f3e0133e87608bc1cbdceb
-#https://colorhunt.co/palette/001f3f3a6d8c6a9ab0ead8b1
+# Paletas de colores
+# https://colorhunt.co/palette/f3f3e0133e87608bc1cbdceb
+# https://colorhunt.co/palette/001f3f3a6d8c6a9ab0ead8b1
 
 class BaseStyle:
-    """Clase base para aplicar estilos personalizados a los widgets."""
+    """Clase base para aplicar estilos personalizados a los widgets en PyQt5."""
+    
+    def apply_style(self, widget, style):
+        widget.setStyleSheet(style)
 
-    def __init__(self, root):
-        self.root = root
-        self.style = ttk.Style(root)
-
-    def apply_style(self, widget, style_name=None):
-        if style_name is None:
-            style_name = self.style_name
-        """Aplica un estilo a un widget dado."""
-        widget.config(style=style_name)
 
 class StyleFrame(BaseStyle):
     """Clase para aplicar estilos personalizados a los frames."""
+    
+    def apply_style(self, frame: QFrame):
+        style = """
+            QFrame {
+                background-color: #CBDCEB;
+                border: 1px solid #133E87;
+            }
+        """
+        super().apply_style(frame, style)
 
-    def __init__(self, root):
-        super().__init__(root)
-
-        self.style_name = 'Personality.TFrame'
-        # Configuración del estilo para frames
-        self.style.configure(
-            'Personality.TFrame',
-            background='#CBDCEB',
-            relief='solid',
-            bordercolor='#133E87',
-            borderwidth=1
-        )
 
 class StyleButton(BaseStyle):
     """Clase para aplicar estilos personalizados a los botones."""
 
-    def __init__(self, root):
-        super().__init__(root)
-
-        self.style_name = 'Personality.TButton'
-        # Configuración del estilo para botones
-        self.style.configure(
-            'Personality.TButton',
-            font=('Roboto', 12),
-            foreground='#EAD8B1',
-            background='#6A9AB0',
-            relief='flat',
-            padding=2
-        )
-        self.style.map(
-            'Personality.TButton',
-            foreground=[('pressed', '#6A9AB0'), ('active', '#3E5879')],
-            background=[('pressed', '#213555'), ('active', '#EAD8B1')]
-        )
+    def apply_style(self, button: QPushButton):
+        style = """
+            QPushButton {
+                font: 12pt "Roboto";
+                color: #EAD8B1;
+                background-color: #6A9AB0;
+                border: none;
+                padding: 5px;
+            }
+            QPushButton:hover {
+                background-color: #3E5879;
+            }
+            QPushButton:pressed {
+                background-color: #213555;
+            }
+        """
+        super().apply_style(button, style)
 
 
 class StyleLabel(BaseStyle):
     """Clase para aplicar estilos personalizados a las etiquetas."""
 
-    def __init__(self, root):
-        super().__init__(root)
-
-        self.style_name = 'Personality.TLabel'
-        # Configuración del estilo para etiquetas
-        self.style.configure(
-            'Personality.TLabel',
-            font=('Roboto', 12, 'bold'),
-            foreground='#3E5879',
-            background='#CBDCEB',
-            padding=5
-        )
+    def apply_style(self, label: QLabel):
+        label.setFont(QFont("Roboto", 12, QFont.Bold))
+        label.setAlignment(Qt.AlignCenter)
+        style = """
+            QLabel {
+                color: #3E5879;
+                background-color: #CBDCEB;
+                padding: 5px;
+                border: none;
+                text-align: center;
+            }
+        """
+        super().apply_style(label, style)
 
 
 class StyleEntry(BaseStyle):
     """Clase para aplicar estilos personalizados a los campos de entrada."""
 
-    def __init__(self, root):
-        super().__init__(root)
-
-        self.style_name = 'Personality.TEntry'
-        # Configuración del estilo para campos de entrada
-        self.style.configure(
-            'Personality.TEntry',
-            font=('Roboto', 12),
-            foreground='#3E5879',
-            fieldbackground='#F3F3E0',
-            padding=5
-        )
-        self.style.map(
-            'Personality.TEntry',
-            focusbackground=[('focus', '#2980B9')],
-            foreground=[('disabled', '#7F8C8D')]
-        )
+    def apply_style(self, entry: QLineEdit):
+        entry.setFont(QFont("Roboto", 12))
+        style = """
+            QLineEdit {
+                color: #3E5879;
+                background-color: #F3F3E0;
+                border: 1px solid #133E87;
+                padding: 5px;
+            }
+            QLineEdit:focus {
+                border: 2px solid #2980B9;
+            }
+            QLineEdit:disabled {
+                color: #7F8C8D;
+            }
+        """
+        super().apply_style(entry, style)
 
 
 def main():
-    # Crear la ventana principal
-    root = tk.Tk()
-    root.title("Aplicación con Estilos Personalizados")
-    root.geometry("400x400")
+    # Crear la aplicación PyQt5
+    app = QApplication(sys.argv)
+    window = QWidget()
+    window.setWindowTitle("Aplicación con Estilos Personalizados")
+    window.setGeometry(100, 100, 400, 400)
 
     # Instanciar los estilos
-    button_style = StyleButton(root)
-    frame_style = StyleFrame(root)
-    label_style = StyleLabel(root)
-    entry_style = StyleEntry(root)
+    button_style = StyleButton()
+    frame_style = StyleFrame()
+    label_style = StyleLabel()
+    entry_style = StyleEntry()
+
+    # Crear el layout
+    layout = QVBoxLayout()
 
     # Crear un frame y aplicar estilo
-    frame = ttk.Frame(root)
-    frame_style.apply_style(frame, 'Personality.TFrame')
-    frame.pack(padx=10, pady=10, fill='both', expand=True)
+    frame = QFrame()
+    frame_style.apply_style(frame)
+    layout.addWidget(frame)
 
     # Crear un label y aplicar estilo
-    label = ttk.Label(frame, text="Etiqueta con estilo personalizado")
-    label_style.apply_style(label, 'Personality.TLabel')
-    label.pack(pady=10)
+    label = QLabel("Etiqueta con estilo personalizado")
+    label_style.apply_style(label)
+    layout.addWidget(label)
 
     # Crear un entry y aplicar estilo
-    entry = ttk.Entry(frame)
-    entry_style.apply_style(entry, 'Personality.TEntry')
-    entry.pack(pady=10)
+    entry = QLineEdit()
+    entry_style.apply_style(entry)
+    layout.addWidget(entry)
 
     # Crear un botón y aplicar estilo
-    button = ttk.Button(frame, text="Haz clic aquí")
-    button_style.apply_style(button, 'Personality.TButton')
-    button.pack(pady=10)
+    button = QPushButton("Haz clic aquí")
+    button_style.apply_style(button)
+    layout.addWidget(button)
 
-    # Iniciar la aplicación
-    root.mainloop()
+    # Configurar la ventana
+    window.setLayout(layout)
+    window.show()
+    sys.exit(app.exec_())
 
 
 if __name__ == "__main__":

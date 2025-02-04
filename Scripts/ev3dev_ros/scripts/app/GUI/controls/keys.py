@@ -1,141 +1,76 @@
 #!/usr/bin/env python3
 
+from PyQt5.QtWidgets import QLineEdit, QWidget, QLabel
+from PyQt5.QtGui import QKeyEvent
+from PyQt5.QtCore import Qt
 import app.mqtt.messages as messages
+import sys
 
-class ControlKeys():
-    def __init__(self, master, mqtt_client):
-        self.master = master
+class ControlKeys(QWidget):
+    def __init__(self, mqtt_client):
+        super().__init__()
         self.mqtt_client = mqtt_client
 
 class DifferentialControlKeys(ControlKeys):
-      
-    def __init__(self, master, mqtt_client):
-        super().__init__(master, mqtt_client)
+    def __init__(self, mqtt_client):
+        super().__init__(mqtt_client)
+        self.right_speed_entry: QLineEdit = None
+        self.left_speed_entry: QLineEdit = None
+        self.angle_value_label: QLabel = None
+       #self.setFocusPolicy(Qt.StrongFocus)
 
-        self.right_speed_entry = None
-        self.left_speed_entry = None
-        self.angle_value_label = None
+        self.key_map = {
+            Qt.Key_Up: self.control_key_up,
+            Qt.Key_Left: self.control_key_left,
+            Qt.Key_Right: self.control_key_right,
+            Qt.Key_Down: self.control_key_down,
+            Qt.Key_A: lambda: messages.send_message_special(self.mqtt_client, "Angle", "angle key"),
+            Qt.Key_Space: lambda: messages.send_message_special(self.mqtt_client, "Stop", "Stop key"),
+            Qt.Key_U: lambda: messages.send_message_special(self.mqtt_client, "arm_up", "Up key"),
+            Qt.Key_J: lambda: messages.send_message_special(self.mqtt_client, "arm_down", "Down key"),
+            Qt.Key_Q: lambda: messages.send_message_special(self.mqtt_client, "Quit", "Quit key"),
+            Qt.Key_E: self.control_key_e
+        }
 
-    def set_right_speed_entry(self, right_speed_entry):
+    def set_right_speed_entry(self, right_speed_entry: QLineEdit):
         self.right_speed_entry = right_speed_entry
-    
-    def set_left_speed_entry(self, left_speed_entry):
+
+    def set_left_speed_entry(self, left_speed_entry: QLineEdit):
         self.left_speed_entry = left_speed_entry
-    
-    def set_angle_value_label(self, angle_value_label):
-        self.angle_value_label = angle_value_label
 
-    def remove_focus(self, event):
-        # Si el clic no es sobre el Entry, quita el enfoque
-        if event.widget not in [self.right_speed_entry, self.left_speed_entry]:
-            self.master.focus()
+    def set_angle_value_label(self, label: QLabel):
+        self.angle_value_label = label
 
-    def block_keys(self):
+    def control_key_up(self):
+        self._send_movement_message(1, 1, "Forward key")
 
-        focused_widget = self.master.focus_get()
+    def control_key_left(self):
+        self._send_movement_message(-1, 1, "Left key")
 
-        if focused_widget in [self.right_speed_entry, self.left_speed_entry]:
-            # Comportamiento cuando el Entry tiene el enfoque
-            return True
-        
-        return False
+    def control_key_right(self):
+        self._send_movement_message(1, -1, "Right key")
 
-    def control_key_up(self, event):
-        try:
-            value_right = int(self.right_speed_entry.get())
-            value_left = int(self.left_speed_entry.get())
-            speed = max(value_right, value_left)
-            messages.send_message_movtank(self.mqtt_client, speed, speed, "Forward key")
-            
-        except ValueError:
-            print("Please enter a valid number")
+    def control_key_down(self):
+        self._send_movement_message(-1, -1, "Back key")
 
-    def control_key_left(self, event):
-
-        if self.block_keys():
-            return
-        
-        # Comportamiento cuando el Entry NO tiene el enfoque
-        try:
-            value_right = int(self.right_speed_entry.get())
-            value_left = int(self.left_speed_entry.get())
-
-            if value_left == value_right:
-                messages.send_message_movtank(self.mqtt_client, -1*value_left, 1*value_right, "Left key")
-            else:
-                speed = min(value_right, value_left)
-                messages.send_message_movtank(self.mqtt_client, -1*speed, 1*speed, "Left key")
-
-        except ValueError:
-            print("Please enter a valid number")
-
-        return "break"  # Bloquea el comportamiento predeterminado de la tecla
-
-
-    def control_key_right(self, event):
-
-        if self.block_keys():
-            return
-        
-        # Comportamiento cuando el Entry NO tiene el enfoque
-        try:
-            value_right = int(self.right_speed_entry.get())
-            value_left = int(self.left_speed_entry.get())
-
-            if value_left == value_right:
-                messages.send_message_movtank(self.mqtt_client, 1*value_left, -1*value_right, "Right key")
-            else:
-                speed = min(value_right, value_left)
-                messages.send_message_movtank(self.mqtt_client, 1*speed, -1*speed, "Right key")
-
-        except ValueError:
-            print("Please enter a valid number")
-
-        return "break"  # Bloquea el comportamiento predeterminado de la tecla
-    
-    def control_key_down(self, event):
-        try:
-            value_right = int(self.right_speed_entry.get())
-            value_left = int(self.left_speed_entry.get())
-            speed = min(value_right, value_left)
-            messages.send_message_movtank(self.mqtt_client, -1*speed, -1*speed, "Back key")
-
-        except ValueError:
-            print("Please enter a valid number")
-
-    def control_key_e(self, event):
+    def control_key_e(self):
         messages.send_message_special(self.mqtt_client, "shutdown", "Exit key")
-        exit()
+        sys.exit()
 
-    def set_keys_control(self):
+    def _send_movement_message(self, factor_left, factor_right, action_name):
+        """ Envía mensajes de movimiento con los valores de entrada. """
 
-        self.master.bind("<Button-1>", lambda event: self.remove_focus(event))
+        try:
+            value_right = int(self.right_speed_entry.text())
+            value_left = int(self.left_speed_entry.text())
+            speed = min(value_right, value_left)
+            messages.send_message_movtank(self.mqtt_client, factor_left * speed, factor_right * speed, action_name)
+        except ValueError:
+            print("Por favor ingrese un número válido.")
 
-        self.master.bind('<Up>', lambda event: self.control_key_up(event))
-        self.master.bind('<Left>', lambda event: self.control_key_left(event))
-        self.master.bind('<Right>', lambda event: self.control_key_right(event))
-        self.master.bind('<Down>', lambda event: self.control_key_down(event))
-
-        self.master.bind('<a>', lambda event: messages.send_message_special(self.mqtt_client, "Angle", "angle key"))
-        self.master.bind('<space>', lambda event: messages.send_message_special(self.mqtt_client, "Stop", "Stop key"))
-        self.master.bind('<u>', lambda event: messages.send_message_special(self.mqtt_client, "arm_up", "Up key"))
-        self.master.bind('<j>', lambda event: messages.send_message_special(self.mqtt_client, "arm_down", "Down key"))
-        self.master.bind('<q>', lambda event: messages.send_message_special(self.mqtt_client, "Quit", "Quit key"))
-        self.master.bind('<e>', lambda event: self.control_key_e(event))
-        
-
-    def unset_keys_control(self):
-        self.master.unbind("<Button-1>")
-        self.master.unbind('<Up>')
-        self.master.unbind('<Left>')
-        self.master.unbind('<Right>')
-        self.master.unbind('<Down>')
-        self.master.unbind('<a>')
-        self.master.unbind('<space>')
-        self.master.unbind('<u>')
-        self.master.unbind('<j>')
-        self.master.unbind('<q>')
-        self.master.unbind('<e>')
-
-
+    def keyPressEvent(self, event: QKeyEvent):
+        """ Captura eventos de teclado y ejecuta la acción correspondiente. """
+        if event.key() in self.key_map:
+            self.key_map[event.key()]()
+            event.accept()
 

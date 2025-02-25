@@ -5,7 +5,7 @@ Modulo de creación de cliente MQTT con elementos necesarios del
 protocolo para uso con Robot Ev3 y PC.
 """
 
-__author__ = "Juan Sebastian Daleman Martinez"
+__author__ = "Juan Sebastian Daleman Martine"
 __copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
 __credits__ = ["David Fisher"]
 __license__ = "MIT"

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-__author__ = "Juan Sebastian Daleman Martinez"
+__author__ = "Juan Sebastian Daleman Martine"
 __copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
 __credits__ = ["David Fisher"]
 __license__ = "MIT"
 __version__ = "0.0.2"
-__maintainer__ = "Juan Sebastian Daleman Martinez"
+__maintainer__ = "Juan Sebastian Daleman Martine"
 __email__ = "jdaleman@unal.edu.co"
 __status__ = "Development"
 

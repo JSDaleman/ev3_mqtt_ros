@@ -6,61 +6,60 @@ de diferentes tipos de robots creados con el ev3
 con diferentes condiciones de motores sensores y construcción.
 """
 
-__author__ = "Juan Sebastian Daleman Martine"
+__author__ = "Juan Sebastian Daleman Martinez"
 __copyright__ = "Copyright 2025, Ev3 ROS atravez de MQTT"
 __credits__ = ["David Fisher"]
 __license__ = "MIT"
 __version__ = "0.0.2"
-__maintainer__ = "Juan Sebastian Daleman Martine"
+__maintainer__ = "Juan Sebastian Daleman Martinez"
 __email__ = "jdaleman@unal.edu.co"
 __status__ = "Development"
 
 #Impotación de las librerias necesarias
-from ev3dev2.motor import OUTPUT_B, OUTPUT_C, MoveTank, SpeedPercent, MediumMotor
+import sys
+import time
 import ev3dev2.motor as motor
 import ev3dev2.sensor as sensor
+from ev3dev2.motor import OUTPUT_B, OUTPUT_C, MoveTank, SpeedPercent, MediumMotor, SpeedRPM
 from ev3dev2.sound import Sound
 from ev3dev2.led import Leds
 from ev3dev2.sensor.lego import GyroSensor
 from ev3dev2.wheel import EV3EducationSetTire
-import time
-import sys
 
-class RobotControl():
+
+class RobotControl:
     def __init__(self):
         self.sound = Sound()
         self.leds = Leds()
 
-    def ConnectPeripherals(self, prefiferial, *args):
-
+    def connect_peripheral(self, peripheral_class, *args):
+        """Intenta conectar un periférico y maneja errores en caso de fallo."""
         try:
-            return prefiferial(*args)  # Intenta inicializar el dispositivo con sus parámetros
+            return peripheral_class(*args)
         except Exception as e:
-            print(f"Error al inicializar {prefiferial.__name__}: {e}")
+            print(f"Error al inicializar {peripheral_class.__name__}: {e}")
             sys.exit(1)
 
 
-
-
-"""Creación de la clase personalizada para manejar un robot de tracción diferencial
-Motores: 
-    -Puerto_A: Motor mediano
-    -Puerto_B: Motor largo
-    -Puerto_C: Motor largo
-
-Sensores:
-    -Puerto_2: Giro sensor
-"""
 class DifferentialDrive(RobotControl):
+    """
+    Clase para controlar un robot de tracción diferencial.
+
+    Motores:
+        - OUTPUT_B: Motor derecho
+        - OUTPUT_C: Motor izquierdo
+    Sensores:
+        - GyroSensor: Sensor giroscópico en un puerto LEGO EV3
+    """
 
     def __init__(self):
         super.__init__()
 
         #Se inicializan los motores y el giroscopio
-        self.motor_a = self.ConnectPeripherals(motor.MediumMotor, 'outA')
-        self.tank = self.ConnectPeripherals(MoveTank, OUTPUT_B, OUTPUT_C)
-        self.tank.gyro = self.ConnectPeripherals(GyroSensor)
-        self.gyro = self.ConnectPeripherals(GyroSensor)
+        self.tank = self.connect_peripherals(MoveTank, OUTPUT_B, OUTPUT_C)
+        self.tank.gyro = self.connect_peripherals(GyroSensor)
+
+        self.gyro = self.Cconnect_peripherals(GyroSensor)
 
         # Calibrar el giroscopio
         self.tank.gyro.calibrate()
@@ -79,37 +78,27 @@ class DifferentialDrive(RobotControl):
         self.speed = 30
 
 
-
     def drive(self, left_speed, right_speed):
         #Funcion para mover el robot segun una condición de velocidad de giro o de avance/retroceso
         
         #Se intenta usar las velocidades dadas en caso de estar fuera del rango se le informa al usuario 
         try:
 
-            #Se verifica la condición de velocidades de giro
-            if ((left_speed == (-1*right_speed)) or ((-1*left_speed) == right_speed)) :
-                self.tank.on_for_seconds(left_speed, right_speed, self.seconds, brake=True, block=True)
-            else:
-                self.tank.on_for_seconds(left_speed, right_speed, self.seconds, brake=False, block=False)
+            if abs(left_speed) > 600 or abs(right_speed) > 600:
+                raise ValueError("Las velocidades deben estar en el rango de -100 a 100.")
 
-        except:
+            brake = left_speed == -right_speed  # Frenar si es giro en el sitio
+            self.tank.on_for_seconds(SpeedRPM(left_speed), SpeedRPM(right_speed), self.seconds, brake=brake, block=False)
 
-            print("Error range of speed is -100 to 100")
+        except ValueError as e:
+            print(f"Error en la velocidad: {e}")
 
-    def arm_down(self):
-        #Funcion para bajar el brazo
-        self.motor_a.run_to_abs_pos(position_sp=0, speed_sp=self.speed, stop_action="hold")
-
-    def arm_up(self):
-        #Función para subir el brazo
-        self.motor_a.run_to_abs_pos(position_sp=140, speed_sp=self.speed, stop_action="hold")
-
-    def Stop(self):
+    def stop(self):
         #Función para parar cualquier movimiento
         self.tank.stop()
         self.motor_a.stop()
 
-    def Quit(self):
+    def quit(self):
         #Función para salir de la rutina parando todos los movimientos
         self.tank.stop()
         print("Quit to the routing")
@@ -133,3 +122,30 @@ class DifferentialDrive(RobotControl):
         self.sound.speak('Goodbye')
         Leds().set_color("LEFT", "BLACK")
         Leds().set_color("RIGHT", "BLACK")
+
+    def interrupt(self):
+        self.sound.speak('Goodbye, See you later')
+
+
+class DifferentialDriveWithArm(RobotControl):
+    """
+    Clase para controlar un robot de tracción diferencial.
+
+    Motores:
+        - OUTPUT_B: Motor derecho
+        - OUTPUT_C: Motor izquierdo
+        - OUTPUT_A: Motor mediano
+    Sensores:
+        - GyroSensor: Sensor giroscópico en un puerto LEGO EV3
+    """
+    def __init__(self):
+        super.__init__()
+        self.motor_a = self.connect_peripherals(motor.MediumMotor, 'outA')
+
+    def arm_down(self):
+        #Funcion para bajar el brazo
+        self.motor_a.run_to_abs_pos(position_sp=0, speed_sp=self.speed, stop_action="hold")
+
+    def arm_up(self):
+        #Función para subir el brazo
+        self.motor_a.run_to_abs_pos(position_sp=140, speed_sp=self.speed, stop_action="hold")

@@ -35,7 +35,7 @@ Para generar la conexión se hara a traves de comunicación mqtt en donde se bus
 
 Crearemos un work space llamado ev3dev_ws en el cual tendremos nuestros paquetes de ros.
 
->[!NOTE]Nota
+>[!NOTE]
 >En el repositorio de [ev3_ros](https://github.com/JSDaleman/ev3dev_ROS?tab=readme-ov-file) encontraras los detalles de la estructuración de los paquetes para el funcionamiento de ROS y el como usarlos más a detalle.
 
 ```sh
@@ -137,7 +137,7 @@ De esta sacaremos los datos de Cluster URL y Port los cuales se deben ingresar d
 
 Luego iremos a la pestaña Access Management para crear el usurio con contraseña para la seguridad en este caso el usurio y contraseña seran ```LegoEV301``` el cual es el nombre del robot.
 
->[!NOTE]Nota
+>[!NOTE]
 >El nombre de cada robot consiste es "LegoEV3XX" donde las dos X se remplazan por el ID de identificación de cada robot.
 
 ![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/eb66381b-6ed9-45df-b269-845c788bce5c)

@@ -1,4 +1,4 @@
-# 🤖📡💻 Conexión de EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev
+# 🤖📡💻 Conexión de Lego mindstorms EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev
 
 Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de comunicación MQTT. 
 
@@ -9,7 +9,7 @@ Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de co
 
 ---
 
-- [🤖📡💻 Conexión de EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev](#-conexión-de-ev3-con-ros-por-medio-de-comunicación-mqtt-y-el-sistema-ev3dev)
+- [🤖📡💻 Conexión de Lego mindstorms EV3 con ROS por medio de comunicación MQTT y el sistema ev3dev](#-conexión-de-lego-mindstorms-ev3-con-ros-por-medio-de-comunicación-mqtt-y-el-sistema-ev3dev)
   - [⚙️💻🤖 Configuracion sistema ev3dev](#️-configuracion-sistema-ev3dev)
   - [🤖🔌🖥️ Conexión Lego EV3 con ROS](#️-conexión-lego-ev3-con-ros)
     - [🧰🏙️ Preparación del work space de ROS](#️-preparación-del-work-space-de-ros)
@@ -121,14 +121,23 @@ Por las ventajas en especial por poder de procesamiento y adaptabilidad a sistem
 3. **Interfaz grafica:** Se creo la estructura de la interfaz que permite la teleoperacion del robot y su correspondiente paque en ROS.
 4. **Simulación:** Despliegue de modelo del robot y seguimiento de comportamiento esperado del robot
 
-![Comunicaciónes](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/ac8bc943-ea79-49ea-a248-852512709800)
+<div align="center">
+
+<img src="https://i.imgur.com/FUue9h9.png" alt="Estructura de la comunicación" width="600px">
+
+</div>
 
 
 ### 🚀🌐🔧 Creación de broker y configuración
 
 Para crear el broker MQTT se uso [hivemq](https://www.hivemq.com/) que nos permite crear un broker gratuito con un trafico maximo de 10 GB que al ser nuestros mensajes tan peqeños y bajo trafico sera más que suficiente y se pueden conectar hasta 100 sesiones al tiempo. Una vez creado iremos a la siguiente pestaña de resumen.
 
-![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/62362c28-b876-47cb-a5df-69f8fc6677b4)
+<div align="center">
+
+<img src="https://imgur.com/oUNJSub.png" alt="Resumen del broker" width="600px">
+
+</div>
+
 
 De esta sacaremos los datos de Cluster URL y Port los cuales se deben ingresar de los archivos de en el paquete mqtt y en el modulo mqtt para el robot para poder conectarnos a nuestro propio broker.
 
@@ -140,11 +149,19 @@ Luego iremos a la pestaña Access Management para crear el usurio con contraseñ
 >[!NOTE]
 >El nombre de cada robot consiste es "LegoEV3XX" donde las dos X se remplazan por el ID de identificación de cada robot.
 
-![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/eb66381b-6ed9-45df-b269-845c788bce5c)
+<div align="center">
+
+<img src="https://imgur.com/3vD0VmO.png" alt="Asignacion de credenciales" width="600px">
+
+</div>
 
 Despues iremos a la pestaña web client en donde ingresaremos las anteriores credenciales y conectaremos el cliente. Despues nos suscribiremos a todos los topicos (usando "#") para ver todo el trafico que pasa por el broker con este usuario.
 
-![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/a390c292-2093-438e-a0b7-0527c92722cd)
+<div align="center">
+
+<img src="https://imgur.com/4hdQxiK.png" alt="Revisión de trafico en el broker" width="600px">
+
+</div>
 
 
 ### 💻🔄🤖 Carga de archivos al robot

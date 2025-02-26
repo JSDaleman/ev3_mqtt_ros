@@ -37,7 +37,7 @@ class RobotControl:
         try:
             return peripheral_class(*args)
         except Exception as e:
-            print(f"Error al inicializar {peripheral_class.__name__}: {e}")
+            print("Error al inicializar {}: {}".format(peripheral_class.__name__, e))
             sys.exit(1)
 
 
@@ -91,7 +91,7 @@ class DifferentialDrive(RobotControl):
             self.tank.on_for_seconds(SpeedRPM(left_speed), SpeedRPM(right_speed), self.seconds, brake=brake, block=False)
 
         except ValueError as e:
-            print(f"Error en la velocidad: {e}")
+            print("Error en la velocidad: {}".format(e))
 
     def stop(self):
         #Función para parar cualquier movimiento

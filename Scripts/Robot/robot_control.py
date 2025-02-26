@@ -84,8 +84,8 @@ class DifferentialDrive(RobotControl):
         #Se intenta usar las velocidades dadas en caso de estar fuera del rango se le informa al usuario 
         try:
 
-            if abs(left_speed) > 601 or abs(right_speed) > 601:
-                raise ValueError("Las velocidades deben estar en el rango de -600 a 600.")
+            if abs(left_speed) > 175 or abs(right_speed) > 175:
+                raise ValueError("Las velocidades deben estar en el rango de -175 a 175.")
 
             brake = left_speed == -right_speed  # Frenar si es giro en el sitio
             #Frenado

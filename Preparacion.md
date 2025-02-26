@@ -29,17 +29,17 @@ EV3Dev es un sistema operativo basado en Linux diseñado para ejecutarse en el L
 Es asi que en este apartado seguiremos todos los pasos para configurar el sistema operativo ev3dev junto a detalles y recomendaciones en su uso.
 
 >[!NOTE]Saber más de ev3dev
-Si quieres saber más del sistema operativo ev3dev puedes consultar su [pagina oficial](https://www.ev3dev.org/) y para conocer que otros lenguajes de programación puedes usar puedes consultar su apartado de [lenguajes de programación](https://www.ev3dev.org/docs/programming-languages/).
+>Si quieres saber más del sistema operativo ev3dev puedes consultar su [pagina oficial](https://www.ev3dev.org/) y para conocer que otros lenguajes de programación puedes usar puedes consultar su apartado de [lenguajes de programación](https://www.ev3dev.org/docs/programming-languages/).
 
 ## 💿🔨 Creación de SD booteable con ev3dev
 
 Se debe crear una SD booteable para que cargue el sistema ev3dev luego nos conectaremos al robot mediante una conexión ssh al sistema del robot para manipular los archivos. La conexión ssh se puede hacer por cable, bluethoot, ethernet o wifi. 
 
 >[!TIP]
-Te recomiendo usar la conexión wifi dado que es la más estable y no tienes pobrlemas con cables.
+>Te recomiendo usar la conexión wifi dado que es la más estable y no tienes pobrlemas con cables.
 
 > [!IMPORTANT]Importante
-Para poder utilizar el sistema ev3dev se necesita tener una memoria SD de minimo 2 GB de alamacenamiento.
+>Para poder utilizar el sistema ev3dev se necesita tener una memoria SD de minimo 2 GB de alamacenamiento.
 
 Para elegir una SD compatible y un adaptador wifi se recomienda leer las siguientes paginas:
 * [Seleccion de SD](https://github.com/ev3dev/ev3dev/wiki/Selecting-a-microSD-card)
@@ -48,7 +48,7 @@ Para elegir una SD compatible y un adaptador wifi se recomienda leer las siguien
 
 Ten presente que el "EV3 Brick" tiene varias limitantes de procesamiento y de compatibilidad por lo cual es importante verificar que vas a comprar que sea funcional con el robot.
 
->[!NOTE]Aclaración
+>[!NOTE]Nota
 Acabe aclarar que este es un booteo por una unidad de almacenamiento diferente por lo cual no se afecta o modifica el firmware original que posee el bloque ev3.
 
 Una vez se tiene la SD se pueden seguir los paso de la pagina de ev3dev [SD booteable](https://www.ev3dev.org/docs/getting-started/). Se debe poner en el robot la SD y encenderlo para que boote por esta (Si usas la antena wifi tambien conectala antes de inicar el robot).
@@ -62,14 +62,14 @@ Para esta conexión se puede hacer por dos vias la primera es configurar manualm
 ssh robot@<Dirección IP del robot>
 ```
 >[!NOTE]Nota
- La dirrección IP asignada al robot se puede ver en la parte superior a la izquierda del robot y el password es "maker" se puede usar tambien el comado ```ssh robot@ev3dev.local ``` pero al habero otros robots conectados o por configuración DNS de la red wifi puede generar algún error.
+>La dirrección IP asignada al robot se puede ver en la parte superior a la izquierda del robot y el password es "maker" se puede usar tambien el comado ```ssh robot@ev3dev.local ``` pero al habero otros robots conectados o por configuración DNS de la red wifi puede generar algún error.
 
 ### 🚗🎛️ Pruebas de motores
 
 Se pueden probar unos comandos en el robot para verificar el funcionamiento de motores por el terminal.
 
 >[!IMPORTANT] Importante
-Para que los comandos funcionen adecuadamente asegurese que los motores esten en los puertos B y C. Estas pruebas se realizan a velocidad del 50% de la velocidad máxima de los motores.
+>Para que los comandos funcionen adecuadamente asegurese que los motores esten en los puertos B y C. Estas pruebas se realizan a velocidad del 50% de la velocidad máxima de los motores.
 
 #### 🔄🛞 Prueba movimiento de cada motor
 

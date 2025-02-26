@@ -20,7 +20,7 @@ Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de co
     - [📤📡📥 Estructura de comunicación creada](#-estructura-de-comunicación-creada)
     - [🚀🌐🔧 Creación de broker y configuración](#-creación-de-broker-y-configuración)
     - [💻🔄🤖 Carga de archivos al robot](#-carga-de-archivos-al-robot)
-  - [▶️📜🖥️ Ejecución de los progamas](#️️-ejecución-de-los-progamas)
+  - [▶️📜🖥️ Ejecución de los programas](#️️-ejecución-de-los-programas)
   - [📚🔍 Referencias](#-referencias)
 </details>
 
@@ -36,7 +36,7 @@ Para generar la conexión se hara a traves de comunicación mqtt en donde se bus
 Crearemos un work space llamado ev3dev_ws en el cual tendremos nuestros paquetes de ros.
 
 >[!NOTE]Nota
-En el repositorio de [ev3_ros](https://github.com/JSDaleman/ev3dev_ROS?tab=readme-ov-file) encontraras los detalles de la estructuración de los paquetes para el funcionamiento de ROS y el como usarlos más a detalle.
+>En el repositorio de [ev3_ros](https://github.com/JSDaleman/ev3dev_ROS?tab=readme-ov-file) encontraras los detalles de la estructuración de los paquetes para el funcionamiento de ROS y el como usarlos más a detalle.
 
 ```sh
 cd ~
@@ -133,12 +133,12 @@ Para crear el broker MQTT se uso [hivemq](https://www.hivemq.com/) que nos permi
 De esta sacaremos los datos de Cluster URL y Port los cuales se deben ingresar de los archivos de en el paquete mqtt y en el modulo mqtt para el robot para poder conectarnos a nuestro propio broker.
 
 >[!TIP]
-En los modulos puedes cambiar los valores por defecto para no tener que estar ingresandolos
+>En los modulos puedes cambiar los valores por defecto para no tener que estar ingresandolos
 
 Luego iremos a la pestaña Access Management para crear el usurio con contraseña para la seguridad en este caso el usurio y contraseña seran ```LegoEV301``` el cual es el nombre del robot.
 
 >[!NOTE]Nota
-El nombre de cada robot consiste es "LegoEV3XX" donde las dos X se remplazan por el ID de identificación de cada robot.
+>El nombre de cada robot consiste es "LegoEV3XX" donde las dos X se remplazan por el ID de identificación de cada robot.
 
 ![image](https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/eb66381b-6ed9-45df-b269-845c788bce5c)
 
@@ -164,7 +164,7 @@ cd ev3_mqtt_ros/Scripts/Robot
 scp -r ./ robot@<Dirección IP del robot>:/home/robot/pruebas/python/MQTT/
 ```
 
-## ▶️📜🖥️ Ejecución de los progamas
+## ▶️📜🖥️ Ejecución de los programas
 
 
 

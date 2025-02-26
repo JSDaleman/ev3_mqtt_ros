@@ -101,7 +101,6 @@ class DifferentialDrive(RobotControl):
     def stop(self):
         #Función para parar cualquier movimiento
         self.tank.stop()
-        self.motor_a.stop()
 
     def quit(self):
         #Función para salir de la rutina parando todos los movimientos
@@ -154,3 +153,8 @@ class DifferentialDriveWithArm(RobotControl):
     def arm_up(self):
         #Función para subir el brazo
         self.motor_a.run_to_abs_pos(position_sp=140, speed_sp=self.speed, stop_action="hold")
+
+    def stop(self):
+        #Función para parar cualquier movimiento
+        self.tank.stop()
+        self.motor_a.stop()

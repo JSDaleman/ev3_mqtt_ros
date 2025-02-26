@@ -88,7 +88,12 @@ class DifferentialDrive(RobotControl):
                 raise ValueError("Las velocidades deben estar en el rango de -100 a 100.")
 
             brake = left_speed == -right_speed  # Frenar si es giro en el sitio
-            self.tank.on_for_seconds(SpeedRPM(left_speed), SpeedRPM(right_speed), self.seconds, brake=brake, block=False)
+            #Frenado
+            self.tank.left_motor._set_brake(brake)
+            self.tank.right_motor._set_brake(brake)
+
+            self.tank.on(SpeedRPM(left_speed), SpeedRPM(right_speed))
+            
 
         except ValueError as e:
             print("Error en la velocidad: {}".format(e))

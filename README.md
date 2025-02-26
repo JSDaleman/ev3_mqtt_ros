@@ -161,7 +161,7 @@ Luego copiaremos los archivos que estan en ev3_mqtt_ros/Scripts/Robot.
 
 ```sh
 cd ev3_mqtt_ros/Scripts/Robot
-scp -r ./ robot@<Dirección IP del robot>:/home/robot/pruebas/python/MQTT/
+scp -r ./* robot@<Dirección IP del robot>:/home/robot/pruebas/python/MQTT/
 ```
 
 ## ▶️📜🖥️ Ejecución de los programas

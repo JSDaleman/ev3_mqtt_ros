@@ -30,7 +30,7 @@ class MqttClient(object):
         self.mqtt_broker_ip_address = mqtt_broker_ip
 
         self.lego_id = id
-        self.robot_name = f"LegoEV3{self.lego_id:02d}"
+        self.robot_name = "LegoEV3{:02d}".format(self.lego_id)
         self.delegate = delegate
         self.port = 8883
 
@@ -83,9 +83,9 @@ class MqttClient(object):
             lego_robot_number = self.lego_id
         
         #Declaración de ID del robot y sufijos necesarios para el topico MQTT
-        self.robot_name = f"LegoEV3{lego_robot_number:02d}"
-        self.subscription_topic_name = f"{self.robot_name}/{subscription_suffix}"
-        self.publish_topic_name = f"{self.robot_name}/{publish_suffix}"
+        self.robot_name = "LegoEV3{:02d}".format(lego_robot_number)
+        self.subscription_topic_name = "{}/{}".format(self.robot_name, subscription_suffix)
+        self.publish_topic_name = "{}/{}".format(self.robot_name, publish_suffix)
         
         # Configuración de eventos MQTT
         self.client.on_connect = self.on_connect
@@ -115,7 +115,7 @@ class MqttClient(object):
             #Verificación de que los parametros hayan sido ingresados esten en una estructura no iterable
             if not isinstance(parameter_list, Iterable):
                 # Se le informa al usuario que los paramtros no estan en una lista y se corrige el error 
-                print(f"The parameter_list {parameter_list} is not a list. Converting it to a list for you.")
+                print("The parameter_list {} is not a list. Converting it to a list for you.".format(parameter_list))
                 parameter_list = [parameter_list]
 
             #Se agraga al diccionario una key "payload" y valor la lista de parametros
@@ -137,7 +137,7 @@ class MqttClient(object):
         if rc == 0:
             print(" ... Connected!")
         else:
-            print(f"... Error de conexión: código {rc}")
+            print("... Error de conexión: código {}".format(rc))
             exit()
             """0: Connection successful
             1: Connection refused - incorrect protocol version
@@ -150,7 +150,7 @@ class MqttClient(object):
             
 
         #Impresión de cual es el topico de publicación al que se conecto
-        print(f"Publish in the topic: {self.publish_topic_name}")
+        print("Publish in the topic: {}".format(self.publish_topic_name))
 
         #Declaración que la funcion on_subscribe es la misma de la clase cliente
         self.client.on_subscribe = self.on_subscribe
@@ -163,7 +163,7 @@ class MqttClient(object):
 
         #Cuando el mesaje qos es de confimación es exitoso se genera la siguiente impresión
         #impresión de identificardor de mensaje recibido
-        print(f"Publish message with ID: {mid}")
+        print("Publish message with ID: {}".format(mid))
 
     
     def on_subscribe(self, client, userdata, mid, granted_qos, properties=None):
@@ -175,7 +175,7 @@ class MqttClient(object):
         #print(f"Subscribed: {mid} {str(granted_qos)}")
 
         #Impresión del topico al que se ha generado la suscripción
-        print(f"Subscribed to topic: {self.subscription_topic_name}")
+        print("Subscribed to topic: {}".format(self.subscription_topic_name))
 
 
     def on_message(self, client, userdata, msg):
@@ -190,7 +190,7 @@ class MqttClient(object):
         #print(f"{msg.topic} {str(msg.qos)} {str(msg.payload)}")
         
         #Impresión del mensaje recibido por el servidor
-        print(f"Received message: { message}")
+        print("Received message: {}".format(message))
 
         #Si no se creo un delegado para mensajes no se procesa el mensaje
         #solo se retorna
@@ -229,10 +229,10 @@ class MqttClient(object):
 
             if attempted_return:
                 #Si el metodo retorno algun valor se le informa al usuario ya que no es posible el manejo de valores retornados
-                print(f"The method {message_type} returned a value. That's not really how this library works. The value {attempted_return} was not magically sent back over")
+                print("The method {} returned a value. That's not really how this library works. The value {} was not magically sent back over".format(message_type, attempted_return))
         else:
 
-            print(f"Attempt to call method {message_type} which was not found.")
+            print("Attempt to call method {} which was not found.".format(message_type))
 
     def close(self):
         """

@@ -53,13 +53,13 @@ class DifferentialDrive(RobotControl):
     """
 
     def __init__(self):
-        super.__init__()
+        super().__init__()
 
         #Se inicializan los motores y el giroscopio
-        self.tank = self.connect_peripherals(MoveTank, OUTPUT_B, OUTPUT_C)
-        self.tank.gyro = self.connect_peripherals(GyroSensor)
+        self.tank = self.connect_peripheral(MoveTank, OUTPUT_B, OUTPUT_C)
+        self.tank.gyro = self.connect_peripheral(GyroSensor)
 
-        self.gyro = self.Cconnect_peripherals(GyroSensor)
+        self.gyro = self.connect_peripheral(GyroSensor)
 
         # Calibrar el giroscopio
         self.tank.gyro.calibrate()
@@ -139,8 +139,8 @@ class DifferentialDriveWithArm(RobotControl):
         - GyroSensor: Sensor giroscópico en un puerto LEGO EV3
     """
     def __init__(self):
-        super.__init__()
-        self.motor_a = self.connect_peripherals(motor.MediumMotor, 'outA')
+        super().__init__()
+        self.motor_a = self.connect_peripheral(motor.MediumMotor, 'outA')
 
     def arm_down(self):
         #Funcion para bajar el brazo

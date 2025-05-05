@@ -123,7 +123,7 @@ Por las ventajas en especial por poder de procesamiento y adaptabilidad a sistem
 
 <div align="center">
 
-<img src="https://i.imgur.com/FUue9h9.png" alt="Estructura de la comunicación" width="800px">
+<img src="https://i.imgur.com/FUue9h9.png" alt="Estructura de la comunicación" width="800px" style="border-radius: 10px;">
 
 </div>
 
@@ -134,7 +134,7 @@ Para crear el broker MQTT se uso [hivemq](https://www.hivemq.com/) que nos permi
 
 <div align="center">
 
-<img src="https://imgur.com/oUNJSub.png" alt="Resumen del broker" width="800px">
+<img src="https://imgur.com/oUNJSub.png" alt="Resumen del broker" width="800px" style="border-radius: 10px;">
 
 </div>
 
@@ -151,7 +151,7 @@ Luego iremos a la pestaña Access Management para crear el usurio con contraseñ
 
 <div align="center">
 
-<img src="https://imgur.com/3vD0VmO.png" alt="Asignacion de credenciales" width="800px">
+<img src="https://imgur.com/3vD0VmO.png" alt="Asignacion de credenciales" width="800px" style="border-radius: 10px;">
 
 </div>
 
@@ -159,7 +159,7 @@ Despues iremos a la pestaña web client en donde ingresaremos las anteriores cre
 
 <div align="center">
 
-<img src="https://imgur.com/4hdQxiK.png" alt="Revisión de trafico en el broker" width="800px">
+<img src="https://imgur.com/4hdQxiK.png" alt="Revisión de trafico en el broker" width="800px" style="border-radius: 10px;">
 
 </div>
 

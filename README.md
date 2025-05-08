@@ -21,6 +21,9 @@ Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de co
     - [🚀🌐🔧 Creación de broker y configuración](#-creación-de-broker-y-configuración)
     - [💻🔄🤖 Carga de archivos al robot](#-carga-de-archivos-al-robot)
   - [▶️📜🖥️ Ejecución de los programas](#️️-ejecución-de-los-programas)
+    - [📡🎮🤖 Teleoperación del robot](#-teleoperación-del-robot)
+    - [🧩🏙️🖥️ Aplicación y plugin de rqt](#️️-aplicación-y-plugin-de-rqt)
+    - [🎮📊🤖 Teleoperación y simulación](#-teleoperación-y-simulación)
   - [📚🔍 Referencias](#-referencias)
 </details>
 
@@ -183,6 +186,23 @@ scp -r ./* robot@<Dirección IP del robot>:/home/robot/pruebas/python/MQTT/
 
 ## ▶️📜🖥️ Ejecución de los programas
 
+### 📡🎮🤖 Teleoperación del robot
+
+<a href="https://www.youtube.com/watch?v=hCdG2yltG18">
+  <img src="https://img.youtube.com/vi/hCdG2yltG18/0.jpg" alt="" width="400px">
+</a>
+
+### 🧩🏙️🖥️ Aplicación y plugin de rqt
+
+<a href="https://www.youtube.com/watch?v=J4IgCLKRch4">
+  <img src="https://img.youtube.com/vi/J4IgCLKRch4/0.jpg" alt="" width="400px">
+</a>
+
+### 🎮📊🤖 Teleoperación y simulación
+
+<a href="https://www.youtube.com/watch?v=NIEbXVXS-eo">
+  <img src="https://img.youtube.com/vi/NIEbXVXS-eo/0.jpg" alt="" width="400px">
+</a>
 
 
 ## 📚🔍 Referencias

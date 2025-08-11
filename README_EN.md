@@ -222,7 +222,7 @@ roslaunch ev3_launch_pkg ev3_teleop_simulate.launch
 ```
 
 <div align="center">
-  <a href="https://www.youtube.com/watch?v=NIEbXVXS-eo" align="center">
+  <a href="https://www.youtube.com/watch?v=NIEbXVXS-eo">
     <img src="https://img.youtube.com/vi/NIEbXVXS-eo/0.jpg" alt="Teleoperation and Simulation" width="600px">
   </a>
 </div>

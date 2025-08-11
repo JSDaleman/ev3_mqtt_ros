@@ -5,7 +5,7 @@ Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de co
 **Autor: Juan Sebastian Daleman**
 
 <details>
-  <summary>🗃️ Tabla de Contenidos</summary>
+  <summary>🗃️Tabla de Contenidos</summary>
 
 ---
 
@@ -223,7 +223,7 @@ roslaunch ev3_launch_pkg ev3_teleop_simulate.launch
 ```
 
 <div align="center">
-  <a href="https://www.youtube.com/watch?v=NIEbXVXS-eo" align="center">
+  <a href="https://www.youtube.com/watch?v=NIEbXVXS-eo">
     <img src="https://img.youtube.com/vi/NIEbXVXS-eo/0.jpg" alt="Teleoperación y simulación" width="600px">
   </a>
 </div>

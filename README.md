@@ -5,7 +5,7 @@ Integración de la plataforma robotica Lego mindstorm EV3 con ROS a traves de co
 **Autor: Juan Sebastian Daleman**
 
 <details>
-  <summary>Tabla de Contenidos</summary>
+  <summary>🗃️ Tabla de Contenidos</summary>
 
 ---
 
@@ -125,9 +125,7 @@ Por las ventajas en especial por poder de procesamiento y adaptabilidad a sistem
 4. **Simulación:** Despliegue de modelo del robot y seguimiento de comportamiento esperado del robot
 
 <div align="center">
-
-<img src="https://i.imgur.com/FUue9h9.png" alt="Estructura de la comunicación" width="800px" style="border-radius: 10px;">
-
+  <img src="https://i.imgur.com/FUue9h9.png" alt="Estructura de la comunicación" width="800px">
 </div>
 
 
@@ -136,9 +134,7 @@ Por las ventajas en especial por poder de procesamiento y adaptabilidad a sistem
 Para crear el broker MQTT se uso [hivemq](https://www.hivemq.com/) que nos permite crear un broker gratuito con un trafico maximo de 10 GB que al ser nuestros mensajes tan peqeños y bajo trafico sera más que suficiente y se pueden conectar hasta 100 sesiones al tiempo. Una vez creado iremos a la siguiente pestaña de resumen.
 
 <div align="center">
-
-<img src="https://imgur.com/oUNJSub.png" alt="Resumen del broker" width="800px" style="border-radius: 10px;">
-
+  <img src="https://imgur.com/oUNJSub.png" alt="Resumen del broker" width="800px">
 </div>
 
 
@@ -153,17 +149,13 @@ Luego iremos a la pestaña Access Management para crear el usurio con contraseñ
 >El nombre de cada robot consiste es "LegoEV3XX" donde las dos X se remplazan por el ID de identificación de cada robot.
 
 <div align="center">
-
-<img src="https://imgur.com/3vD0VmO.png" alt="Asignacion de credenciales" width="800px" style="border-radius: 10px;">
-
+  <img src="https://imgur.com/3vD0VmO.png" alt="Asignacion de credenciales" width="800px">
 </div>
 
 Despues iremos a la pestaña web client en donde ingresaremos las anteriores credenciales y conectaremos el cliente. Despues nos suscribiremos a todos los topicos (usando "#") para ver todo el trafico que pasa por el broker con este usuario.
 
 <div align="center">
-
-<img src="https://imgur.com/4hdQxiK.png" alt="Revisión de trafico en el broker" width="800px" style="border-radius: 10px;">
-
+  <img src="https://imgur.com/4hdQxiK.png" alt="Revisión de trafico en el broker" width="800px">
 </div>
 
 
@@ -186,29 +178,61 @@ scp -r ./* robot@<Dirección IP del robot>:/home/robot/pruebas/python/MQTT/
 
 ## ▶️📜🖥️ Ejecución de los programas
 
+A continuación, se mostrarán diferentes comandos de ejemplo para su ejecución, junto con pruebas básicas de funcionamiento.
+
 ### 📡🎮🤖 Teleoperación del robot
 
-<a href="https://www.youtube.com/watch?v=hCdG2yltG18">
-  <img src="https://img.youtube.com/vi/hCdG2yltG18/0.jpg" alt="" width="600px">
-</a>
+En esta prueba se verifica el funcionamiento de la teleoperación del robot mediante la interfaz desarrollada como plugin de rqt.
+
+```sh
+roslaunch ev3_launch_pkg ev3_teleop.launch
+```
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=hCdG2yltG18">
+    <img src="https://img.youtube.com/vi/hCdG2yltG18/0.jpg" alt="Teleoperación del robot" width="600px">
+  </a>
+</div>
 
 ### 🧩🏙️🖥️ Aplicación y plugin de rqt
 
-<a href="https://www.youtube.com/watch?v=J4IgCLKRch4">
-  <img src="https://img.youtube.com/vi/J4IgCLKRch4/0.jpg" alt="" width="600px">
-</a>
+En esta prueba se verifica el funcionamiento de la teleoperación del robot mediante la interfaz desarrollada como aplicación y el complemento (plugin) de rqt. Para ello, es necesario descomentar la siguiente línea del archivo ```ev3_teleop.launch``` del paquete ```ev3_launch_pkg```:
+
+```xml
+<!-- include file="$(find gui)/launch/gui.launch"/-->
+```
+
+Una vez guardado el archivo y recompilado el paquete, se debe ejecutar la siguiente línea de código:
+
+```sh
+roslaunch ev3_launch_pkg ev3_teleop.launch
+```
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=J4IgCLKRch4" >
+    <img src="https://img.youtube.com/vi/J4IgCLKRch4/0.jpg" alt="Aplicación y plugin de rqt" width="600px">
+  </a>
+</div>
 
 ### 🎮📊🤖 Teleoperación y simulación
 
-<a href="https://www.youtube.com/watch?v=NIEbXVXS-eo">
-  <img src="https://img.youtube.com/vi/NIEbXVXS-eo/0.jpg" alt="" width="600px">
-</a>
+En esta prueba se verifica el funcionamiento de la teleoperación del robot mediante la interfaz desarrollada como complemento (plugin) de rqt, junto con la simulación en RViz, donde se visualizan las características de los marcos de referencia de cada parte del robot, y la simulación en Gazebo, que permite observar el comportamiento del robot en un entorno virtual equivalente al mundo real.
+
+```sh
+roslaunch ev3_launch_pkg ev3_teleop_simulate.launch
+```
+
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=NIEbXVXS-eo" align="center">
+    <img src="https://img.youtube.com/vi/NIEbXVXS-eo/0.jpg" alt="Teleoperación y simulación" width="600px">
+  </a>
+</div>
 
 
 ## 📚🔍 Referencias
 * [Conexion de Lego Ev3 por medio de una raspberry pi](https://github.com/aws-samples/aws-builders-fair-projects/blob/master/reinvent-2019/lego-ev3-raspberry-pi-robot/README.MD) 
 * [ROS desde el Lego Ev3](https://github.com/moriarty/ros-ev3)
-* [Manajo con python ev3dev](https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/latest/)
+* [Manejo con python ev3dev](https://ev3dev-lang.readthedocs.io/projects/python-ev3dev/en/latest/)
 * [Manejo de motores del Ev3 con Python](https://www.youtube.com/watch?v=j0-ATIe6pqg) 
 * [Uso de sensor lidar con Ev3](https://www.youtube.com/watch?v=JX0zeYa-faM) 
 * [Programacion y conexion SSH desde Visual Studio Code con Ev3](https://www.youtube.com/watch?v=uNSIOvqzAnY) 

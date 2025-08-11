@@ -3,7 +3,7 @@
 Aca encontramos elementos necesatios para la preparación del sistema operativo ev3dev junto a pruebas de uso y conexión al robot para su manipulación.
 
 <details>
-    <summary>Tabla de Contenidos</summary>
+    <summary>🗃️ Tabla de Contenidos</summary>
 
 - [🤖🛠️⚙️ Preparacion de robot ev3 y configuración de ev3dev](#️️-preparacion-de-robot-ev3-y-configuración-de-ev3dev)
   - [📝 Introducción](#-introducción)
@@ -71,6 +71,7 @@ Se pueden probar unos comandos en el robot para verificar el funcionamiento de m
 >[!IMPORTANT]
 >Para que los comandos funcionen adecuadamente asegurese que los motores esten en los puertos B y C. Estas pruebas se realizan a velocidad del 50% de la velocidad máxima de los motores.
 
+
 #### 🔄🛞 Prueba movimiento de cada motor
 
 ```sh
@@ -78,6 +79,7 @@ python3 -c "from ev3dev2.motor import LargeMotor, OUTPUT_B, OUTPUT_C; LargeMotor
 ```
 
 https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/4514641b-869f-43b0-8adf-74ec17cf0142
+
 
 #### 🛑🏎 Prueba con frenado
 
@@ -87,19 +89,20 @@ python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent
 
 https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/5100ec6d-13a1-4fb5-8574-61f7fa2af7d3
 
+
 #### ↪️🌀🚗 Giro del robot
+
 ```sh
 python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank; tank_drive = MoveTank(OUTPUT_B, OUTPUT_C); tank_drive.on_for_seconds(left_speed=50, right_speed=45, seconds=5, brake=True)"
 ```
-
 
 https://github.com/JSDaleman/Robotica-movil-Lab2/assets/70998067/6e06f705-b825-4c8d-ac69-6b6de09b7f5b
 
 
 #### 🐢🟡🚗 Frenado suave
+
 ```sh
 python3 -c "from ev3dev2.motor import MoveTank, OUTPUT_B, OUTPUT_C, SpeedPercent, MoveTank; tank_drive = MoveTank(OUTPUT_B, OUTPUT_C); tank_drive.on_for_seconds(left_speed=50, right_speed=45, seconds=5); tank_drive.off(brake=True)"
-
 ```
 
 ### 📜🐍 Scripts de prueba con python
